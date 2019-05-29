@@ -1,8 +1,11 @@
 package com.friendlines.controller;
 
+import android.content.Context;
+
 import com.friendlines.controller.manager.Manager;
 import com.friendlines.controller.manager.PostManager;
 import com.friendlines.controller.manager.UserManager;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Controller implements IController
 {
@@ -15,6 +18,20 @@ public class Controller implements IController
     {
         userManager = new UserManager();
         postManager = new PostManager();
+    }
+
+    public void login(String email, String password, Context context)
+    {
+        //TODO: login firebase
+    }
+
+    private void updateUI(FirebaseUser firebaseUser, Context context)
+    {
+        //TODO updateUI
+        if(firebaseUser == null)
+        {
+            return;
+        }
     }
 
     @Override
