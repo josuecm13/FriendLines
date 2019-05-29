@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "790701092284",
+    "firebase_url": "https://friendlines-107af.firebaseio.com",
+    "project_id": "friendlines-107af",
+    "storage_bucket": "friendlines-107af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790701092284:android:7b86d87f0dbba2bb",
+        "android_client_info": {
+          "package_name": "com.friendlines"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790701092284-us4q5n6qd4i2npnt6qv7gunn7atiarb4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.friendlines",
+            "certificate_hash": "4ada0ed1d9a453aad4a4c8119ce51e1a09bd4fa0"
+          }
+        },
+        {
+          "client_id": "790701092284-hlr3dtopm6k214u474oiprac40anai4q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARL69Q5Iwxu43GYHHECiu7s86DHwEZaAQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790701092284-hlr3dtopm6k214u474oiprac40anai4q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
