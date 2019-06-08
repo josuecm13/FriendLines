@@ -7,22 +7,22 @@ public class UserDAO extends DAO
         super();
     }
     @Override
-    Boolean register(Object object) {
+    public Boolean register(Object object) {
         return null;
     }
 
     @Override
-    Boolean delete(Object object) {
+    public Boolean delete(Object object) {
         return null;
     }
 
     @Override
-    Boolean update(Object oldObject, Object newObject) {
+    public Boolean update(Object oldObject, Object newObject) {
         return null;
     }
 
     @Override
-    Object get(Object object) {
+    public Object get(Object object) {
         return null;
     }
 }
