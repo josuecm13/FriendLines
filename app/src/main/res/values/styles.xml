@@ -12,6 +12,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="button_style">
@@ -24,6 +25,34 @@
         <item name="android:textSize">21sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="ToolBar_Sign">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+    </style>
+
+    <style name="ToolBar_Sign.Text">
+        <item name="android:textColor">@android:color/background_light</item>
+        <item name="android:textSize">18sp</item>
+        <!--<item name="android:textStyle">bold</item> -->
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="editText_style">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">28dp</item>
+        <item name="android:layout_marginEnd">28dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/slightly_round_corner</item>
+        <item name="android:ems">10</item>
+        <item name="android:textColorHint">#6f748b</item>
+        <item name="android:textColor">#fdfdfe</item>
+    </style>
+
 
     <style name="title_text">
         <item name="android:textSize">28sp</item>

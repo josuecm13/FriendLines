@@ -15,10 +15,16 @@
         <activity android:name=".view.auth.RecoverPasswordActivity" />
         <activity android:name=".view.profile.EducationActivity" />
         <activity android:name=".view.profile.EditProfileActivity" />
-        <activity android:name=".view.auth.register.RegBirthGenderActivity" />
-        <activity android:name=".view.auth.register.RegNamesActivity" />
-        <activity android:name=".view.auth.register.RegisterActivity" />
-        <activity android:name=".view.auth.LoginActivity" />
+        <activity android:name=".view.auth.register.RegBirthGenderActivity"
+            android:theme="@style/NoActionBar"
+            android:parentActivityName=".view.auth.register.RegNamesActivity"/>
+        <activity android:name=".view.auth.register.RegNamesActivity"
+            android:theme="@style/NoActionBar"
+            android:parentActivityName=".view.LaunchActivity"/>
+        <activity android:name=".view.auth.register.RegisterActivity"
+            android:theme="@style/NoActionBar"
+            android:parentActivityName=".view.auth.register.RegBirthGenderActivity"/>
+        <activity android:name=".view.auth.LoginActivity" android:theme="@style/NoActionBar"/>
         <activity
             android:name=".view.LaunchActivity"
             android:theme="@style/NoActionBar" />
