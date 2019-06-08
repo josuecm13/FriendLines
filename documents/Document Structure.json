@@ -1,0 +1,53 @@
+{
+    "users":{
+        "auth_id":"authentication user id",
+        "firstname":"string",
+        "lastname":"string",
+        "email":"string",
+        "image":"url to image",
+        "birthday":"date",
+        "phone":"integer",
+        "gender":"string",
+        "city":"string",
+        "country":"string"
+    },
+    "educations": {
+        "user_id":"user id",
+        "institution":"string",
+        "type":"string" 
+    },
+    "posts":{
+        "type":"TEXT or IMAGE or VIDEO",
+        "user_id":"user id",
+        "username":"name",
+        "user_image":"url to image",
+        "text":"text",
+        "created":"date of postage",
+        "image":"url to picture, only added on posts with the 'image' type",
+        "video":"youtube video link, only added on posts with the 'video' type"
+    },
+    "friendships":{
+        "created":"date",
+        "emissor":"emissor user id",
+        "emissor_name":"the display name of the emissor",
+        "receiver":"receiver user id",
+        "status": "PENDING or ACCEPTED, if rejected then this document is deleted"
+    },
+    "comments":{
+        "parent_id":"the post's parent id",
+        "type":"TEXT or IMAGE or VIDEO",
+        "user_id":"user id",
+        "username":"name",
+        "user_image":"url to image",
+        "text":"text",
+        "created":"date of postage",
+        "image":"url to picture, only added on posts with the 'image' type",
+        "video":"youtube video link, only added on posts with the 'video' type"
+    },
+    "likes":{
+        "user_id":"user id",
+        "collection_id":"the collection id to interact with",
+        "document_id":"the particular document id",
+        "value":"1 for likes, -1 for dislikes"
+    }
+}
