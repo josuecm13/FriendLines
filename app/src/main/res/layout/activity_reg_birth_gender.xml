@@ -1,9 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_color_dark"
     tools:context=".view.auth.register.RegBirthGenderActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:title=""
+        style="@style/ToolBar_Sign">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ToolBar_Sign.Text"
+            android:text="More Information"
+            android:id="@+id/toolbar_title" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/q1_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#86FFFFFF"
+        android:textSize="35sp"
+        android:layout_centerHorizontal="true"
+        android:text="When's your birthday?"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="100dp"
+        />
+
+
+    <Button
+        android:id="@+id/date_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/button_style"
+        android:gravity="center"
+        android:backgroundTint="@android:color/background_light"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="25sp"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:text="dd / mm / yyyy"
+        android:layout_below="@+id/q1_text"
+        android:layout_marginTop="30dp"
+        android:onClick="selectDate"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/lastname_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date_picker"
+        android:textColorHint="#C1FFFFFF"
+        android:layout_marginTop="50dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/lastname_edit_text"
+            style="@style/editText_style"
+            android:focusedByDefault="false"
+            android:textColorHighlight="@android:color/background_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#4FFFFFFF"
+            android:textColor="@android:color/background_light"
+            android:padding="10dp"
+            android:textSize="25sp"
+            android:hint="Gender" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/next_button"
+        style="@style/button_style"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
+        android:onClick="goNext"
+        android:text="Next"
+        android:textColor="@color/colorAccent" />
+
+</RelativeLayout>

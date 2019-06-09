@@ -1,10 +1,13 @@
 package com.friendlines.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.friendlines.R;
+import com.friendlines.view.auth.LoginActivity;
+import com.friendlines.view.auth.register.RegNamesActivity;
 
 public class LaunchActivity extends AppCompatActivity {
 
@@ -16,11 +19,11 @@ public class LaunchActivity extends AppCompatActivity {
 
 
     public void goToLogin(View v){
-        //TODO: startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
     }
 
     public void goToRegister(View v){
-        //TODO: startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+        startActivity(new Intent(getApplicationContext(), RegNamesActivity.class));
     }
 
 }

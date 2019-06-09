@@ -1,10 +1,7 @@
 package com.friendlines.controller;
 
-import android.content.Context;
-
 import com.friendlines.controller.dao.PostDAO;
 import com.friendlines.controller.dao.UserDAO;
-import com.friendlines.controller.listeners.EducationEventListener;
 import com.friendlines.controller.listeners.UserEventListener;
 import com.friendlines.model.User;
 
@@ -23,7 +20,15 @@ public class Controller
 
     public static Controller getInstance(){ return instance; }
 
-    public void listen(User user, UserEventListener listener) {
+    public void addUser(User user) throws ControlException{
+        UserDAO.addUser(user);
+    }
+
+    public void updateUser(User user) throws ControlException{
+        UserDAO.updateUser(user);
+    }
+
+    public void listen(User user, UserEventListener listener) throws ControlException {
         userDAOs.add(new UserDAO(user, listener));
     }
 }

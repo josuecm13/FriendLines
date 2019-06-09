@@ -1,9 +1,11 @@
 package com.friendlines.controller.dao;
 
+<<<<<<< HEAD
 
 import com.friendlines.controller.ControlException;
 import com.friendlines.controller.listeners.UserEventListener;
 import com.friendlines.model.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -26,7 +28,7 @@ public class UserDAO
             throw new ControlException("A user document ID must be provided to update a user.");
         else {
             this.listener = listener;
-            this.document = FirebaseFirestore.getInstance().document(user.id);
+            this.document = FirebaseFirestore.getInstance().collection(COLLECTION).document(user.id);
             this.document.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -40,8 +42,8 @@ public class UserDAO
         FirebaseFirestore.getInstance().collection(COLLECTION).add(user);
     }
 
-    public static void updateUser(User user) throws ControlException{
-        if(user.id == null)
+    public static void updateUser(User user) throws ControlException {
+        if (user.id == null)
             throw new ControlException("A user document ID must be provided to update a user.");
         else {
             HashMap<String, Object> map = new HashMap();
