@@ -46,12 +46,12 @@ public class Controller
         userDAO.addUser(dto.getUser());
     }
 
-    public void updateUser(User user) throws ControlException{
-        userDAO.updateUser(user);
+    public void updateUser() throws ControlException{
+        userDAO.updateUser(dto.getUser());
     }
 
-    public void deleteUser(User user) throws ControlException{
-        userDAO.deleteUser(user);
+    public void deleteUser() throws ControlException{
+        userDAO.deleteUser(dto.getUser());
     }
 
     public void listen(Activity activity, User user, UserEventListener listener) throws ControlException {
