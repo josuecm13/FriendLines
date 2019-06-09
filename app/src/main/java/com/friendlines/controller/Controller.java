@@ -11,14 +11,18 @@ public class Controller
 {
     private static final Controller instance = new Controller();
 
+    private DTO dto;
     private ArrayList<UserDAO> userDAOs;
     private ArrayList<PostDAO> postDAOs;
 
     private Controller() {
+        this.dto = new DTO();
         userDAOs = new ArrayList();
     }
 
-    public static Controller getInstance(){ return instance; }
+    public DTO getDto(){
+        return dto;
+    }
 
     public void addUser(User user) throws ControlException{
         UserDAO.addUser(user);
@@ -31,4 +35,6 @@ public class Controller
     public void listen(User user, UserEventListener listener) throws ControlException {
         userDAOs.add(new UserDAO(user, listener));
     }
+
+    public static Controller getInstance(){ return instance; }
 }

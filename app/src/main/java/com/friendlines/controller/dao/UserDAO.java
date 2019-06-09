@@ -1,11 +1,8 @@
 package com.friendlines.controller.dao;
 
-<<<<<<< HEAD
-
 import com.friendlines.controller.ControlException;
 import com.friendlines.controller.listeners.UserEventListener;
 import com.friendlines.model.User;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;

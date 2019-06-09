@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.friendlines.R;
 import com.friendlines.controller.Controller;
+import com.google.firebase.Timestamp;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -67,7 +68,7 @@ public class RegBirthGenderActivity extends AppCompatActivity {
         }
         else
         {
-            controller.getDto().getUser().setBirth(new Date(year, month, day));
+            controller.getDto().getUser().birthday = new Timestamp(new Date(year, month, day));
             startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
         }
     }
