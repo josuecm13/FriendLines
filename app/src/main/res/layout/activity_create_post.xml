@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.CreatePostActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:textSize="28sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="34dp"
+        android:text="TextView"
+        tools:text="What are you thinking?" />
+
+
+    <EditText
+        android:id="@+id/post_text"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_below="@+id/textView"
+        android:maxHeight="150dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:elevation="12dp"
+        android:textSize="25sp"
+        style="@style/editText_style"
+        android:hint="type something..."
+        android:textColorHint="#9E9E9E"
+        android:layout_marginTop="40dp" />
+
+    <!-- TODO: Add Icons: (Image, Video, Emoji) -->
+
+    <ImageView
+        android:id="@+id/addImage"
+        android:src="@drawable/like"
+        android:layout_below="@id/post_text"
+        android:layout_marginStart="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="addImage"/>
+
+    <ImageView
+        android:id="@+id/addVideo"
+        android:src="@drawable/like"
+        android:layout_below="@id/post_text"
+        android:layout_toEndOf="@id/addImage"
+        android:layout_marginStart="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="addVideo"/>
+
+    <ImageView
+        android:id="@+id/addEmoji"
+        android:src="@drawable/like"
+        android:layout_below="@id/post_text"
+        android:layout_toEndOf="@id/addVideo"
+        android:layout_marginStart="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="addEmoji"/>
+
+    <Button
+        android:id="@+id/submit_button"
+        android:background="@drawable/slightly_round_corner"
+        android:backgroundTint="@color/colorPrimaryDark"
+        style="@style/button_style"
+        android:layout_marginTop="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Submit"
+        android:onClick="submit"
+        android:layout_below="@id/post_text"/>
+
+</RelativeLayout>

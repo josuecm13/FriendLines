@@ -11,20 +11,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.profile.GalleryImageActivity"></activity>
-        <activity android:name=".view.auth.RecoverPasswordActivity" />
+        <activity android:name=".CommentSection"></activity>
+        <activity
+            android:name=".view.CreatePostActivity"
+            android:parentActivityName=".view.MainActivity" />
+        <activity android:name=".view.profile.GalleryImageActivity" />
+        <activity
+            android:name=".view.auth.RecoverPasswordActivity"
+            android:parentActivityName=".view.LaunchActivity"
+            android:theme="@style/NoActionBar" />
         <activity android:name=".view.profile.EducationActivity" />
         <activity android:name=".view.profile.EditProfileActivity" />
-        <activity android:name=".view.auth.register.RegBirthGenderActivity"
-            android:theme="@style/NoActionBar"
-            android:parentActivityName=".view.auth.register.RegNamesActivity"/>
-        <activity android:name=".view.auth.register.RegNamesActivity"
-            android:theme="@style/NoActionBar"
-            android:parentActivityName=".view.LaunchActivity"/>
-        <activity android:name=".view.auth.register.RegisterActivity"
-            android:theme="@style/NoActionBar"
-            android:parentActivityName=".view.auth.register.RegBirthGenderActivity"/>
-        <activity android:name=".view.auth.LoginActivity" android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".view.auth.register.RegBirthGenderActivity"
+            android:parentActivityName=".view.auth.register.RegNamesActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".view.auth.register.RegNamesActivity"
+            android:parentActivityName=".view.LaunchActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".view.auth.register.RegisterActivity"
+            android:parentActivityName=".view.auth.register.RegBirthGenderActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".view.auth.LoginActivity"
+            android:parentActivityName=".view.LaunchActivity"
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".view.LaunchActivity"
             android:theme="@style/NoActionBar" />
