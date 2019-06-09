@@ -33,8 +33,8 @@ public class RegNamesActivity extends AppCompatActivity {
     public void goNext(View view) {
         EditText name = findViewById(R.id.name_edit_text);
         EditText lastName = findViewById(R.id.lastname_edit_text);
-        controller.getDto().getUser().setName(name.getText().toString());
-        controller.getDto().getUser().setSurname(lastName.getText().toString());
+        controller.getDto().getUser().firstname = name.getText().toString();
+        controller.getDto().getUser().lastname = lastName.getText().toString();
         startActivity(new Intent(getApplicationContext(), RegBirthGenderActivity.class));
     }
 }

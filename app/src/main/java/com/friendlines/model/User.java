@@ -6,6 +6,7 @@ public class User extends FirebaseItem {
     public String auth_id;
     public String firstname;
     public String lastname;
+    public String email;
     public String image;
     public Timestamp birthday;
     public int phone;
@@ -15,10 +16,11 @@ public class User extends FirebaseItem {
 
     public User(){}
 
-    public User(String auth_id, String firstname, String lastname, String image, Timestamp birthday, int phone, String gender, String city, String country){
+    public User(String auth_id, String firstname, String lastname, String email, String image, Timestamp birthday, int phone, String gender, String city, String country){
         this.auth_id = auth_id;
         this.firstname = firstname;
         this.lastname = lastname;
+        this.email = email;
         this.image = image;
         this.birthday = birthday;
         this.phone = phone;

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.friendlines.R;
 import com.friendlines.controller.Controller;
+import com.friendlines.model.User;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -102,8 +103,9 @@ public class RegisterActivity extends AppCompatActivity {
         else
         {
             EditText email = findViewById(R.id.email_edit_text);
-            controller.getDto().getUser().setEmail(email.getText().toString());
-            controller.getDto().getUser().setPassword(password.getText().toString());
+            User user = controller.getDto().getUser();
+            user.email = email.getText().toString();
+            controller.registerUserAuthentication(user.email, password.getText().toString());
         }
     }
 }

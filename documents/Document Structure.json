@@ -1,6 +1,5 @@
 {
     "users":{
-        "id":"this document's id",
         "auth_id":"authentication user id",
         "firstname":"string",
         "lastname":"string",
@@ -13,13 +12,11 @@
         "country":"string"
     },
     "educations": {
-        "id":"this document's id",
         "user_id":"user id",
         "institution":"string",
         "type":"string" 
     },
     "posts":{
-        "id":"this document's id",
         "type":"TEXT or IMAGE or VIDEO",
         "user_id":"user id",
         "user_name":"display name",
@@ -41,7 +38,6 @@
         }
     },
     "friendships":{
-        "id":"this document's id",
         "created":"date",
         "emissor_id":"emissor user id",
         "emissor_name":"the display name of the emissor",
@@ -49,7 +45,6 @@
         "status": "PENDING or ACCEPTED, if rejected then this document is deleted"
     },
     "likes":{
-        "id":"this document's id",
         "user_id":"user id",
         "collection_id":"the collection id to interact with",
         "post_id":"the particular post id",
