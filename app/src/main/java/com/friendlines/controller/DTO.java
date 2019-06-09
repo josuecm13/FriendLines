@@ -1,6 +1,6 @@
 package com.friendlines.controller;
 
-import com.friendlines.model.Post;
+import com.friendlines.model.post.Post;
 import com.friendlines.model.User;
 
 public class DTO
