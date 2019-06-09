@@ -42,8 +42,8 @@ public class Controller
         auth.createUserWithEmailAndPassword(email, password);
     }
 
-    public void addUser(User user){
-        userDAO.addUser(user);
+    public void addUser(){
+        userDAO.addUser(dto.getUser());
     }
 
     public void updateUser(User user) throws ControlException{

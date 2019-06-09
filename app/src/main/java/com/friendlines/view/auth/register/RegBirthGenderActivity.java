@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -46,14 +47,17 @@ public class RegBirthGenderActivity extends AppCompatActivity {
     public void selectDate(View view) {
         //Dialog
         final Calendar calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.DAY_OF_MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
         month = calendar.get(Calendar.MONTH);
         year = calendar.get(Calendar.YEAR);
         DatePickerDialog dialog = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        birthday.setText(String.format("%02d / %02d / %d",dayOfMonth,month ,year));
+                        birthday.setText(String.format("%02d / %02d / %d",dayOfMonth,month + 1 ,year));
+                        RegBirthGenderActivity.this.year = year;
+                        RegBirthGenderActivity.this.month = month;
+                        RegBirthGenderActivity.this.day = dayOfMonth;
                     }
                 }
                 , year, month, day);
@@ -64,6 +68,8 @@ public class RegBirthGenderActivity extends AppCompatActivity {
     {
         if(!checkDate())
         {
+            Date date = new Date(year - 1900, month, day);
+            Log.e("Error", date.toString());
             Toast.makeText(this, "Not a valid birthday", Toast.LENGTH_SHORT).show();
         }
         else
@@ -75,7 +81,7 @@ public class RegBirthGenderActivity extends AppCompatActivity {
 
     public boolean checkDate()
     {
-        Date date = new Date(year, month, day);
+        Date date = new Date(year - 1900, month, day);
         Date nowMinus12 = Calendar.getInstance().getTime();
         nowMinus12.setYear(nowMinus12.getYear() - 12);
         return date.before(nowMinus12);

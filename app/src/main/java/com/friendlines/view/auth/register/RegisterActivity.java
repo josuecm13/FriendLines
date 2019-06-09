@@ -1,5 +1,6 @@
 package com.friendlines.view.auth.register;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import com.friendlines.R;
 import com.friendlines.controller.Controller;
 import com.friendlines.model.User;
+import com.friendlines.view.LaunchActivity;
+import com.friendlines.view.MainActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -106,6 +109,8 @@ public class RegisterActivity extends AppCompatActivity {
             User user = controller.getDto().getUser();
             user.email = email.getText().toString();
             controller.registerUserAuthentication(user.email, password.getText().toString());
+            controller.addUser();
+            startActivity(new Intent(this, LaunchActivity.class));
         }
     }
 }
