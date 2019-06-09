@@ -1,5 +1,6 @@
 package com.friendlines.view.auth.register;
 
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -45,12 +46,14 @@ public class RegisterActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if(!s.toString().equals(confirmPassword.getText().toString()))
                 {
-                    //TODO: show message error
                     btnConfirm.setEnabled(false);
+                    TextInputLayout til = findViewById(R.id.pass2_layout);
+                    til.setError("Must be the same password");
                 }
                 else
                 {
-                    //TODO: show message ok
+                    TextInputLayout til = findViewById(R.id.pass2_layout);
+                    til.setError(null);
                     btnConfirm.setEnabled(true);
                 }
             }
@@ -70,12 +73,14 @@ public class RegisterActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if(!s.toString().equals(password.getText().toString()))
                 {
-                    //TODO: show message error
                     btnConfirm.setEnabled(false);
+                    TextInputLayout til = findViewById(R.id.pass2_layout);
+                    til.setError("Must be the same password");
                 }
                 else
                 {
-                    //TODO: show message ok
+                    TextInputLayout til = findViewById(R.id.pass2_layout);
+                    til.setError(null);
                     btnConfirm.setEnabled(true);
                 }
             }
@@ -92,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void createAccount(View view) {
         if(password.getText().toString().trim().isEmpty())
         {
-            Toast.makeText(this, "Not valid password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Password mustn't be empty", Toast.LENGTH_SHORT).show();
         }
         else
         {
