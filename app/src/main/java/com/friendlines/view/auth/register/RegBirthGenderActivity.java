@@ -78,6 +78,6 @@ public class RegBirthGenderActivity extends AppCompatActivity {
         Date date = new Date(year, month, day);
         Date nowMinus12 = Calendar.getInstance().getTime();
         nowMinus12.setYear(nowMinus12.getYear() - 12);
-        return date.after(nowMinus12) && date.before(Calendar.getInstance().getTime());
+        return date.before(nowMinus12);
     }
 }
