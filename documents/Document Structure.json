@@ -1,5 +1,6 @@
 {
     "users":{
+        "id":"this document's id",
         "auth_id":"authentication user id",
         "firstname":"string",
         "lastname":"string",
@@ -12,42 +13,46 @@
         "country":"string"
     },
     "educations": {
+        "id":"this document's id",
         "user_id":"user id",
         "institution":"string",
         "type":"string" 
     },
     "posts":{
+        "id":"this document's id",
         "type":"TEXT or IMAGE or VIDEO",
         "user_id":"user id",
-        "username":"name",
+        "user_name":"display name",
         "user_image":"url to image",
         "text":"text",
         "created":"date of postage",
-        "image":"url to picture, only added on posts with the 'image' type",
-        "video":"youtube video link, only added on posts with the 'video' type"
+        "image":"url to picture, only added on posts with the 'IMAGE' type",
+        "video":"youtube video link, only added on posts with the 'VIDEO' type",
+        "comments":{
+            "id":"this document's id",
+            "type":"TEXT or IMAGE or VIDEO",
+            "user_id":"user id",
+            "username":"name",
+            "user_image":"url to image",
+            "text":"text",
+            "created":"date of postage",
+            "image":"url to picture, only added on posts with the 'image' type",
+            "video":"youtube video link, only added on posts with the 'video' type"
+        }
     },
     "friendships":{
+        "id":"this document's id",
         "created":"date",
-        "emissor":"emissor user id",
+        "emissor_id":"emissor user id",
         "emissor_name":"the display name of the emissor",
-        "receiver":"receiver user id",
+        "receiver_id":"receiver user id",
         "status": "PENDING or ACCEPTED, if rejected then this document is deleted"
     },
-    "comments":{
-        "parent_id":"the post's parent id",
-        "type":"TEXT or IMAGE or VIDEO",
-        "user_id":"user id",
-        "username":"name",
-        "user_image":"url to image",
-        "text":"text",
-        "created":"date of postage",
-        "image":"url to picture, only added on posts with the 'image' type",
-        "video":"youtube video link, only added on posts with the 'video' type"
-    },
     "likes":{
+        "id":"this document's id",
         "user_id":"user id",
         "collection_id":"the collection id to interact with",
-        "document_id":"the particular document id",
+        "post_id":"the particular post id",
         "value":"1 for likes, -1 for dislikes"
     }
 }

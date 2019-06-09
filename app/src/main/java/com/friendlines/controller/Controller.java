@@ -2,103 +2,28 @@ package com.friendlines.controller;
 
 import android.content.Context;
 
-import com.friendlines.controller.manager.Manager;
-import com.friendlines.controller.manager.PostManager;
-import com.friendlines.controller.manager.UserManager;
-import com.google.firebase.auth.FirebaseUser;
+import com.friendlines.controller.dao.PostDAO;
+import com.friendlines.controller.dao.UserDAO;
+import com.friendlines.controller.listeners.EducationEventListener;
+import com.friendlines.controller.listeners.UserEventListener;
+import com.friendlines.model.User;
 
-public class Controller implements IController
+import java.util.ArrayList;
+
+public class Controller
 {
-    private DTO dto;
     private static final Controller instance = new Controller();
-    private Manager userManager;
-    private Manager postManager;
 
-    private Controller()
-    {
-        userManager = new UserManager();
-        postManager = new PostManager();
+    private ArrayList<UserDAO> userDAOs;
+    private ArrayList<PostDAO> postDAOs;
+
+    private Controller() {
+        userDAOs = new ArrayList();
     }
 
-    public void login(String email, String password, Context context)
-    {
-        //TODO: login firebase
-    }
+    public static Controller getInstance(){ return instance; }
 
-    private void updateUI(FirebaseUser firebaseUser, Context context)
-    {
-        //TODO updateUI
-        if(firebaseUser == null)
-        {
-            return;
-        }
-    }
-
-    @Override
-    public Boolean registerUser() {
-        return null;
-    }
-
-    @Override
-    public Boolean deleteUser() {
-        return null;
-    }
-
-    @Override
-    public Boolean updateUser() {
-        return null;
-    }
-
-    @Override
-    public Boolean getUser() {
-        return null;
-    }
-
-    @Override
-    public Boolean logout() {
-        return null;
-    }
-
-    @Override
-    public Boolean recoverPassword() {
-        return null;
-    }
-
-    @Override
-    public Boolean createComment() {
-        return null;
-    }
-
-    @Override
-    public Boolean getPost(int idPost) {
-        return null;
-    }
-
-    @Override
-    public Boolean createPost() {
-        return null;
-    }
-
-    @Override
-    public Boolean deletePost() {
-        return null;
-    }
-
-    @Override
-    public Boolean likePost(int idPost) {
-        return null;
-    }
-
-    @Override
-    public Boolean dislikePost(int idPost) {
-        return null;
-    }
-
-    public DTO getDto() {
-        return dto;
-    }
-
-    public static Controller getInstance() {
-        return instance;
+    public void listen(User user, UserEventListener listener) {
+        userDAOs.add(new UserDAO(user, listener));
     }
 }

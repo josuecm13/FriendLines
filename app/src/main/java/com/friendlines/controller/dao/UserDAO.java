@@ -1,28 +1,60 @@
 package com.friendlines.controller.dao;
 
-public class UserDAO extends DAO
+
+import com.friendlines.controller.ControlException;
+import com.friendlines.controller.listeners.UserEventListener;
+import com.friendlines.model.User;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.util.HashMap;
+
+import javax.annotation.Nullable;
+
+public class UserDAO
 {
-    public UserDAO()
-    {
-        super();
-    }
-    @Override
-    Boolean register(Object object) {
-        return null;
+    private static final String COLLECTION = "users";
+
+    DocumentReference document;
+    UserEventListener listener;
+
+    public UserDAO(User user, UserEventListener listener) throws ControlException{
+        if(user.id == null)
+            throw new ControlException("A user document ID must be provided to update a user.");
+        else {
+            this.listener = listener;
+            this.document = FirebaseFirestore.getInstance().document(user.id);
+            this.document.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                    //manejar listener;
+                }
+            });
+        }
     }
 
-    @Override
-    Boolean delete(Object object) {
-        return null;
+    public static void addUser(User user) throws ControlException{
+        FirebaseFirestore.getInstance().collection(COLLECTION).add(user);
     }
 
-    @Override
-    Boolean update(Object oldObject, Object newObject) {
-        return null;
-    }
-
-    @Override
-    Object get(Object object) {
-        return null;
+    public static void updateUser(User user) throws ControlException{
+        if(user.id == null)
+            throw new ControlException("A user document ID must be provided to update a user.");
+        else {
+            HashMap<String, Object> map = new HashMap();
+            map.put("auth_id", user.auth_id);
+            map.put("firstname", user.firstname);
+            map.put("lastname", user.lastname);
+            map.put("image", user.image);
+            map.put("birthday", user.birthday);
+            map.put("phone", user.phone);
+            map.put("gender", user.gender);
+            map.put("city", user.city);
+            map.put("country", user.country);
+            FirebaseFirestore.getInstance().collection(COLLECTION).document(user.id).update(map);
+        }
     }
 }
