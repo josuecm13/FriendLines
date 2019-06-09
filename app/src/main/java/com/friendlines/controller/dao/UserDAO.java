@@ -1,5 +1,7 @@
 package com.friendlines.controller.dao;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class UserDAO extends DAO
 {
     public UserDAO()
@@ -7,7 +9,9 @@ public class UserDAO extends DAO
         super();
     }
     @Override
-    public Boolean register(Object object) {
+    public Boolean register(Object object)
+    {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         return null;
     }
 

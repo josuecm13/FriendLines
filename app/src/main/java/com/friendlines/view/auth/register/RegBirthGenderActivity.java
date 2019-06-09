@@ -8,10 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import com.friendlines.R;
+import com.friendlines.controller.Controller;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.ResourceBundle;
 
 public class RegBirthGenderActivity extends AppCompatActivity {
 
@@ -21,12 +25,14 @@ public class RegBirthGenderActivity extends AppCompatActivity {
     //Date Variables
     int year, month, day;
     String gender;
+    private Controller controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg_birth_gender);
         initComponents();
+        controller = Controller.getInstance();
     }
 
     private void initComponents(){
@@ -53,8 +59,24 @@ public class RegBirthGenderActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void goNext(View view) {
-        //TODO: validar, obtener datos;
-        startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+    public void goNext(View view)
+    {
+        if(!checkDate())
+        {
+            Toast.makeText(this, "Not a valid birthday", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            controller.getDto().getUser().setBirth(new Date(year, month, day));
+            startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+        }
+    }
+
+    public boolean checkDate()
+    {
+        Date date = new Date(year, month, day);
+        Date nowMinus12 = Calendar.getInstance().getTime();
+        nowMinus12.setYear(nowMinus12.getYear() - 12);
+        return date.after(nowMinus12) && date.before(Calendar.getInstance().getTime());
     }
 }
