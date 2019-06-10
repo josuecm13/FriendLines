@@ -14,15 +14,21 @@ public class DTO
         posts = new Post[10];
     }
 
-    public User getUser() {
-        return user == null ? new User() : user;
+    public User getUser()
+    {
+        if(user == null)
+            user = new User();
+        return user;
     }
 
     public void setUser(User user) {
         this.user = user;
     }
 
-    public Post getPost() {
+    public Post getPost()
+    {
+        if(post == null)
+            post = new Post();
         return post;
     }
 
