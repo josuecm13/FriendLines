@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_color_dark"
+    android:background="@color/colorPrimaryDark"
     tools:context=".view.auth.register.RegBirthGenderActivity">
 
     <android.support.v7.widget.Toolbar
@@ -82,6 +82,6 @@
         android:layout_marginBottom="60dp"
         android:onClick="goNext"
         android:text="Next"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorPrimaryDark" />
 
 </RelativeLayout>

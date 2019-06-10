@@ -21,19 +21,20 @@
 
                 <com.mikhaellopez.circularimageview.CircularImageView
                     android:id="@+id/image"
-                    android:layout_width="180dp"
-                    android:layout_height="180dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_marginTop="15dp"
                     android:src="@raw/person_placeholder"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"
                     app:civ_border_color="@color/colorPrimaryDark"
                     app:civ_border_width="2dp" />
 
 
                 <ImageView
                     android:id="@+id/options"
-                    android:layout_width="40dp"
-                    android:layout_height="80dp"
+                    android:layout_width="30dp"
+                    android:layout_height="60dp"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="0dp"
                     android:src="@drawable/dotmenu"
@@ -75,13 +76,13 @@
                 style="@style/ProfileBubble"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
-                android:text="Information"/>
+                android:text="Friends"/>
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="28sp"
+                android:textSize="20sp"
                 android:layout_gravity="center"
                 android:text="Photos"
                 android:layout_marginTop="20dp"/>
@@ -96,7 +97,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="28sp"
+                android:textSize="20sp"
                 android:layout_gravity="center"
                 android:text="Timeline"
                 android:layout_marginTop="20dp"/>
