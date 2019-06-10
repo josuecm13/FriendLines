@@ -2,15 +2,29 @@ package com.friendlines.model;
 
 public class Education extends FirebaseItem
 {
-    public String user_id;
-    public String institution;
-    public String type;
+    private String institution;
+    private String type;
 
     public Education(){}
 
-    public Education(String user_id, String institution, String type){
-        this.user_id  = user_id;
+    public Education(String institution, String type){
         this.institution = institution;
+        this.type = type;
+    }
+
+    public String getInstitution() {
+        return institution;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setInstitution(String institution) {
+        this.institution = institution;
+    }
+
+    public void setType(String type) {
         this.type = type;
     }
 }

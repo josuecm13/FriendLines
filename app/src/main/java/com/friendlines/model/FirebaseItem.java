@@ -4,5 +4,15 @@ import com.google.firebase.firestore.Exclude;
 
 public class FirebaseItem {
     @Exclude
-    public String id;
+    private String id;
+
+    @Exclude
+    public String getId(){
+        return id;
+    }
+
+    @Exclude
+    public void setId(String id){
+        this.id = id;
+    }
 }

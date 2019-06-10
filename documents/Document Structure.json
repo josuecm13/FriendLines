@@ -9,24 +9,32 @@
         "phone":"integer",
         "gender":"string",
         "city":"string",
-        "country":"string"
+        "country":"string",
+        "educations": {
+            "institution":"string",
+            "type":"string" 
+        }
     },
-    "educations": {
-        "user_id":"user id",
-        "institution":"string",
-        "type":"string" 
+    "friendships":{
+        "created":"date",
+        "sender_id":"emissor user id",
+        "sender_name":"the display name of the sender",
+        "sender_image":"the display image of the sender",
+        "receiver_id":"receiver user id",
+        "receiver_name":"the display name of the receiver",
+        "receiver_image":"receiver's display image",
+        "status": "PENDING or ACCEPTED, if rejected then this document is deleted"
     },
     "posts":{
-        "type":"TEXT or IMAGE or VIDEO",
         "user_id":"user id",
         "user_name":"display name",
         "user_image":"url to image",
+        "type":"TEXT or IMAGE or VIDEO",
         "text":"text",
         "created":"date of postage",
         "image":"url to picture, only added on posts with the 'IMAGE' type",
         "video":"youtube video link, only added on posts with the 'VIDEO' type",
         "comments":{
-            "id":"this document's id",
             "type":"TEXT or IMAGE or VIDEO",
             "user_id":"user id",
             "username":"name",
@@ -34,20 +42,15 @@
             "text":"text",
             "created":"date of postage",
             "image":"url to picture, only added on posts with the 'image' type",
-            "video":"youtube video link, only added on posts with the 'video' type"
+            "video":"youtube video link, only added on posts with the 'video' type",
+            "likes":{
+                "user_id":"user id",
+                "value":"1 for likes, -1 for dislikes"
+            }
+        },
+        "likes":{
+            "user_id":"user id",
+            "value":"1 for likes, -1 for dislikes"
         }
-    },
-    "friendships":{
-        "created":"date",
-        "emissor_id":"emissor user id",
-        "emissor_name":"the display name of the emissor",
-        "receiver_id":"receiver user id",
-        "status": "PENDING or ACCEPTED, if rejected then this document is deleted"
-    },
-    "likes":{
-        "user_id":"user id",
-        "collection_id":"the collection id to interact with",
-        "post_id":"the particular post id",
-        "value":"1 for likes, -1 for dislikes"
     }
 }

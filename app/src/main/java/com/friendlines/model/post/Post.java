@@ -5,12 +5,12 @@ import com.google.firebase.Timestamp;
 
 public class Post extends FirebaseItem
 {
-    public String user_id;
-    public String user_name;
-    public String user_image;
-    public String type;
-    public String text;
-    public Timestamp created;
+    private String user_id;
+    private String user_name;
+    private String user_image;
+    private String type;
+    private String text;
+    private Timestamp created;
 
     public Post(){}
 
@@ -20,6 +20,54 @@ public class Post extends FirebaseItem
         this.user_image = user_image;
         this.type = type;
         this.text = text;
+        this.created = created;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public String getUser_image() {
+        return user_image;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public void setUser_image(String user_image) {
+        this.user_image = user_image;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 }

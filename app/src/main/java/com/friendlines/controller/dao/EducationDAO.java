@@ -19,34 +19,37 @@ import javax.annotation.Nullable;
 
 public class EducationDAO {
 
-    public static final String COLLECTION = "educations";
+    public static final String COLLECTION_NAME = "educations";
 
     public EducationDAO(){}
 
     public void add(Education education){
-        FirebaseFirestore.getInstance().collection(COLLECTION).add(education);
+        FirebaseFirestore.getInstance().collection(COLLECTION_NAME).add(education);
     }
 
     public void update(Education education) throws ControlException {
-        if(education.id != null)
+        if(education.getId() == null)
             throw new ControlException("An education ID must be provided to update");
         else {
             HashMap<String, Object> map = new HashMap();
-            map.put("auth_id", education.type);
-            map.put("firstname", education.institution);
-            FirebaseFirestore.getInstance().collection(COLLECTION).document(education.id).update(map);
+            map.put("auth_id", education.getType());
+            map.put("firstname", education.getInstitution());
+            FirebaseFirestore.getInstance().collection(COLLECTION_NAME).document(education.getId()).update(map);
         }
     }
 
     public void delete(String id){
-        FirebaseFirestore.getInstance().collection(COLLECTION).document(id).delete();
+        FirebaseFirestore.getInstance().collection(COLLECTION_NAME).document(id).delete();
     }
 
     public void listen(Activity activity, String user_id, final EducationEventListener listener) throws ControlException{
         if(user_id == null)
             throw new ControlException("A user ID must be provided to listen to its education changes.");
         else {
-            FirebaseFirestore.getInstance().collection(COLLECTION).whereEqualTo("user_id", user_id).addSnapshotListener(activity, new EventListener<QuerySnapshot>() {
+            FirebaseFirestore.getInstance().collection(UserDAO.COLLECTION_NAME)
+                    .document(user_id)
+                    .collection(COLLECTION_NAME)
+                    .addSnapshotListener(activity, new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot querySnapshot, @Nullable FirebaseFirestoreException e) {
                     if(e != null)
@@ -54,7 +57,7 @@ public class EducationDAO {
                     else{
                         for(DocumentChange change : querySnapshot.getDocumentChanges()){
                             Education education = change.getDocument().toObject(Education.class);
-                            education.id = change.getDocument().getId();
+                            education.setId(change.getDocument().getId());
                             switch(change.getType()){
                                 case ADDED:
                                     listener.onEducationAdded(education);

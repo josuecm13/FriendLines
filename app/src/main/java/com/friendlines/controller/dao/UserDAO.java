@@ -20,7 +20,7 @@ import javax.annotation.Nullable;
 
 public class UserDAO
 {
-    private static final String COLLECTION = "users";
+    public static final String COLLECTION_NAME = "users";
 
     public UserDAO(){}
 
@@ -28,17 +28,18 @@ public class UserDAO
         Log.d(Controller.TAG, "auth_id: " + user.getAuth_id());
         Log.d(Controller.TAG, "firstname: " + user.getFirstname());
         Log.d(Controller.TAG, "lastname: " + user.getLastname());
+        Log.d(Controller.TAG, "email" + user.getEmail());
         Log.d(Controller.TAG, "image: " + user.getImage());
         Log.d(Controller.TAG, "birthday: " + user.getBirthday());
         Log.d(Controller.TAG, "phone: " + user.getPhone());
         Log.d(Controller.TAG, "gender: " + user.getGender());
         Log.d(Controller.TAG, "city: " + user.getCity());
         Log.d(Controller.TAG, "country: " + user.getCountry());
-        FirebaseFirestore.getInstance().collection(COLLECTION).add(user);
+        FirebaseFirestore.getInstance().collection(COLLECTION_NAME).add(user);
     }
 
     public void updateUser(User user) throws ControlException {
-        if (user.id == null)
+        if (user.getId() == null)
             throw new ControlException("A user document ID must be provided to update a user.");
         else {
             HashMap<String, Object> map = new HashMap();
@@ -51,7 +52,7 @@ public class UserDAO
             map.put("gender", user.getGender());
             map.put("city", user.getCity());
             map.put("country", user.getCountry());
-            FirebaseFirestore.getInstance().collection(COLLECTION).document(user.id).update(map);
+            FirebaseFirestore.getInstance().collection(COLLECTION_NAME).document(user.getId()).update(map);
         }
     }
 
@@ -59,7 +60,7 @@ public class UserDAO
         if(user_id == null)
             throw new ControlException("A user document ID must be provided to delete a user.");
         else{
-            FirebaseFirestore.getInstance().collection(COLLECTION).document(user_id).delete();
+            FirebaseFirestore.getInstance().collection(COLLECTION_NAME).document(user_id).delete();
         }
     }
 
@@ -67,7 +68,7 @@ public class UserDAO
         if(user == null)
             throw new ControlException("A FirebaseUser must be provided to listen to a user.");
         else {
-            FirebaseFirestore.getInstance().collection(COLLECTION).whereEqualTo("auth_id", user.getUid()).addSnapshotListener(activity, new EventListener<QuerySnapshot>() {
+            FirebaseFirestore.getInstance().collection(COLLECTION_NAME).whereEqualTo("auth_id", user.getUid()).addSnapshotListener(activity, new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot querySnapshot, @Nullable FirebaseFirestoreException e) {
                     if(e != null)
@@ -75,7 +76,7 @@ public class UserDAO
                     else{
                         for(DocumentChange change : querySnapshot.getDocumentChanges()){
                             User user = change.getDocument().toObject(User.class);
-                            user.id = change.getDocument().getId();
+                            user.setId(change.getDocument().getId());
                             switch(change.getType()){
                                 case ADDED:
                                     listener.onUserAdded(user);
@@ -98,14 +99,14 @@ public class UserDAO
         if(user_id == null)
             throw new ControlException("A user ID must be provided to listen to its changes.");
         else {
-            FirebaseFirestore.getInstance().collection(COLLECTION).document(user_id).addSnapshotListener(activity, new EventListener<DocumentSnapshot>() {
+            FirebaseFirestore.getInstance().collection(COLLECTION_NAME).document(user_id).addSnapshotListener(activity, new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                     if(e != null)
                         Log.d(Controller.TAG, "UserDAO listen error: " + e);
                     else{
                         User user = documentSnapshot.toObject(User.class);
-                        user.id = documentSnapshot.getId();
+                        user.setId(documentSnapshot.getId());
                         if(!documentSnapshot.exists())
                             listener.onUserDeleted(user);
                         else{
