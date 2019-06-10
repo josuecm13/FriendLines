@@ -116,13 +116,13 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess() {
                     controller.getDto().getUser().setAuth_id(FirebaseAuth.getInstance().getUid());
-                    controller.addUser();/*
-                    startActivity(new Intent(this, LaunchActivity.class));*/
+                    controller.addUser();
+                    startActivity(new Intent(getApplicationContext(), LaunchActivity.class));
                 }
 
                 @Override
                 public void onFailure(String error) {
-                    Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_LONG);
+                    Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_LONG).show();
                 }
             });
         }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.friendlines.R;
@@ -74,6 +75,8 @@ public class RegBirthGenderActivity extends AppCompatActivity {
         }
         else
         {
+            EditText gender = findViewById(R.id.lastname_edit_text);
+            controller.getDto().getUser().setGender(gender.getText().toString());
             controller.getDto().getUser().setBirthday(new Timestamp(new Date(year, month, day)));
             startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
         }
