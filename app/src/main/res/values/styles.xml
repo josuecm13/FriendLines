@@ -29,7 +29,7 @@
     <style name="ToolBar_Sign">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">#1B51AD</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
     </style>
 
@@ -63,7 +63,9 @@
 
 
     <style name="title_text">
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/lightBlackText</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

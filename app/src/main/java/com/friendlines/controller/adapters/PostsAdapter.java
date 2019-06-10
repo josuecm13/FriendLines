@@ -40,7 +40,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder postViewHolder, int i) {
-        Controller c = Controller.getInstance();
         final Post post = postList.get(i);
         postViewHolder.name.setText(post.getUser_name());
         //TODO: set iamge url picasso
@@ -53,7 +52,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
             }
         });
         //TODO: procesa
-        postViewHolder.date.setText(post.getCreated().toString());
+        postViewHolder.date.setText("5 minutes ago.");
         postViewHolder.options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +79,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
                 context.startActivity(new Intent(context, CommentSection.class));
             }
         });
+        //TODO: set media content
     }
 
     @Override

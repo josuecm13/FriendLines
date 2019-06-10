@@ -10,7 +10,7 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="7dp"
         app:cardCornerRadius="5dp"
-        app:cardElevation="12dp">
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,12 +83,14 @@
             <FrameLayout
                 android:id="@+id/container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
 
                 <ImageView
