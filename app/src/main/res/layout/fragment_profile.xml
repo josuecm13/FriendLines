@@ -3,12 +3,114 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.homefragments.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/image"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="15dp"
+                    android:src="@raw/person_placeholder"
+                    android:layout_centerHorizontal="true"
+                    app:civ_border_color="@color/colorPrimaryDark"
+                    app:civ_border_width="2dp" />
+
+
+                <ImageView
+                    android:id="@+id/options"
+                    android:layout_width="40dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="0dp"
+                    android:src="@drawable/dotmenu"
+                    android:tint="@color/lightBlackText" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/profile_user_fullname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:text="Albert E."
+                android:layout_marginBottom="20dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/education_btn"
+                    style="@style/ProfileBubble"
+                    android:text="Education"/>
+
+                <Button
+                    style="@style/ProfileBubble"
+                    android:layout_marginStart="50dp"
+                    android:text="Information"/>
+
+
+            </LinearLayout>
+
+            <Button
+                style="@style/ProfileBubble"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:text="Information"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:layout_gravity="center"
+                android:text="Photos"
+                android:layout_marginTop="20dp"/>
+
+            <FrameLayout
+                android:background="#ACACAC"
+                android:id="@+id/image_container"
+                android:layout_width="match_parent"
+                android:layout_height="120dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:layout_gravity="center"
+                android:text="Timeline"
+                android:layout_marginTop="20dp"/>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/timeline_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 </FrameLayout>
