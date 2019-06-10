@@ -1,10 +1,12 @@
 package com.friendlines.model.post;
 
-import com.friendlines.model.FirebaseItem;
+import com.friendlines.model.Identifiable;
 import com.google.firebase.Timestamp;
 
-public class Post extends FirebaseItem
+public class Post extends Identifiable
 {
+    public static final String TYPE = "TEXT";
+
     private String user_id;
     private String user_name;
     private String user_image;

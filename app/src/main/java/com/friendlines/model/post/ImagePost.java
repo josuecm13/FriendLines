@@ -4,6 +4,8 @@ import com.google.firebase.Timestamp;
 
 public class ImagePost extends Post
 {
+    public static final String TYPE = "IMAGE";
+
     private String image;
 
     public ImagePost(){

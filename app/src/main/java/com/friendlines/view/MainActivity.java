@@ -26,11 +26,11 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         fragmentPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(new UserFeedFragment(), "User feed");
         ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(new FriendsFragment(), "Friends");
-        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(new NotificationsFragment(), "Notifications");
         ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(new ProfileFragment(), "Profile");
         ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(new SearchFragment(), "Search");
-        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(new UserFeedFragment(), "User feed");
+        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(new NotificationsFragment(), "Notifications");
         //ViewPager
         viewPager = findViewById(R.id.view_pager_home);
         viewPager.setAdapter(fragmentPagerAdapter);

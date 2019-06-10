@@ -1,6 +1,6 @@
 package com.friendlines.model;
 
-public class Education extends FirebaseItem
+public class Education extends Identifiable
 {
     private String institution;
     private String type;

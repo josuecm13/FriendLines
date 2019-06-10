@@ -4,4 +4,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="recover_password"> <u>Recover password</u> </string>
+    <string name="sample_post_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vestibulum at purus ut volutpat. Quisque libero massa, cursus sit amet purus vel, bibendum porta nisi. Nam sodales mauris nisi, suscipit blandit sapien faucibus ac. Pellentesque in leo gravida, blandit nunc et, mollis purus. Mauris non bibendum magna. Curabitur sed ultricies lacus, volutpat tincidunt lacus. Maecenas sit amet vulputate urna. Nulla in ex non purus hendrerit maximus ac ac urna. Vestibulum ullamcorper tincidunt aliquam. Maecenas accumsan ante nec mi ullamcorper, in sagittis urna hendrerit. Praesent placerat lacus nec porta sagittis. Sed suscipit faucibus purus quis elementum. Phasellus magna eros, lobortis at fermentum in, scelerisque id metus. Quisque nec lectus quis enim gravida pharetra.</string>
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_color_dark"
+    android:background="@color/colorPrimaryDark"
     tools:context=".view.auth.register.RegNamesActivity">
 
     <android.support.v7.widget.Toolbar
@@ -72,7 +72,7 @@
     <Button
         android:id="@+id/next_button"
         style="@style/button_style"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorPrimaryDark"
         android:text="Next"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/lastname_layout"

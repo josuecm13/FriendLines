@@ -31,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     }
     public void signIn(View view)
     {
-        //Attemp sign In
         EditText email = findViewById(R.id.email_edit_text);
         EditText password = findViewById(R.id.password_edit_text);
         try
