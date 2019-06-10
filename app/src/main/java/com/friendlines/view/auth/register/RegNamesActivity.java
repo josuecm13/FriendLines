@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -33,8 +34,9 @@ public class RegNamesActivity extends AppCompatActivity {
     public void goNext(View view) {
         EditText name = findViewById(R.id.name_edit_text);
         EditText lastName = findViewById(R.id.lastname_edit_text);
-        controller.getDto().getUser().firstname = name.getText().toString();
-        controller.getDto().getUser().lastname = lastName.getText().toString();
+        controller.getDto().getUser().setFirstname(name.getText().toString());
+        Log.d(Controller.TAG, "goNext: " + controller.getDto().getUser().getFirstname());
+        controller.getDto().getUser().setLastname(lastName.getText().toString());
         startActivity(new Intent(getApplicationContext(), RegBirthGenderActivity.class));
     }
 }

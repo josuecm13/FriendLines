@@ -74,7 +74,7 @@ public class RegBirthGenderActivity extends AppCompatActivity {
         }
         else
         {
-            controller.getDto().getUser().birthday = new Timestamp(new Date(year, month, day));
+            controller.getDto().getUser().setBirthday(new Timestamp(new Date(year, month, day)));
             startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
         }
     }
