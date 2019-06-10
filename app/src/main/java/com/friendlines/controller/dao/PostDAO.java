@@ -32,7 +32,6 @@ public class PostDAO {
     public void update(Post post) throws ControlException {
         if(post.getId() == null)
             throw new ControlException("A post ID must be provided to update.");
-
         else{
             HashMap<String, Object> map = new HashMap();
             map.put("user_id", post.getUser_id());

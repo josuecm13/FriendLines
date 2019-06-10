@@ -53,7 +53,6 @@ public class FriendshipDAO {
         else if(!query_field.equals(SENDER_ID_FIELD_NAME) && !query_field.equals(RECEIVER_ID_FIELD_NAME))
             throw new ControlException("Invalid query_field parameter in FriendshipDAO's listen method: "+query_field);
         else{
-            //sent friendships
             FirebaseFirestore.getInstance().collection(COLLECTION_NAME)
                     .whereEqualTo(query_field, user_id)
                     .addSnapshotListener(activity, new EventListener<QuerySnapshot>() {

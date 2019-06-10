@@ -1,18 +1,19 @@
 package com.friendlines.controller;
 
+import com.friendlines.model.Education;
+import com.friendlines.model.Friendship;
 import com.friendlines.model.post.Post;
 import com.friendlines.model.User;
 
 public class DTO
 {
     private User user;
+    private Education education;
+    private Friendship friendship;
     private Post post;
-    private Post[] posts;
+    private Post comment;
 
-    public DTO()
-    {
-        posts = new Post[10];
-    }
+    public DTO(){ }
 
     public User getUser()
     {
@@ -23,6 +24,22 @@ public class DTO
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Education getEducation() {
+        return education;
+    }
+
+    public void setEducation(Education education) {
+        this.education = education;
+    }
+
+    public Friendship getFriendship() {
+        return friendship;
+    }
+
+    public void setFriendship(Friendship friendship) {
+        this.friendship = friendship;
     }
 
     public Post getPost()
@@ -36,11 +53,11 @@ public class DTO
         this.post = post;
     }
 
-    public Post[] getPosts() {
-        return posts;
+    public Post getComment() {
+        return comment;
     }
 
-    public void setPosts(Post[] posts) {
-        this.posts = posts;
+    public void setComment(Post comment) {
+        this.comment = comment;
     }
 }

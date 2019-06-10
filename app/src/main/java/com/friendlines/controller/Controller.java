@@ -5,8 +5,15 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.friendlines.controller.dao.CommentDAO;
+import com.friendlines.controller.dao.EducationDAO;
+import com.friendlines.controller.dao.FriendshipDAO;
+import com.friendlines.controller.dao.LikeDAO;
 import com.friendlines.controller.dao.PostDAO;
 import com.friendlines.controller.dao.UserDAO;
+import com.friendlines.controller.listeners.EducationEventListener;
+import com.friendlines.controller.listeners.FriendshipEventListener;
+import com.friendlines.controller.listeners.PostEventListener;
 import com.friendlines.controller.listeners.SignUpListener;
 import com.friendlines.controller.listeners.UserEventListener;
 import com.friendlines.model.User;
@@ -23,13 +30,22 @@ public class Controller
 
     private DTO dto;
     private UserDAO userDAO;
+    private EducationDAO educationDAO;
+    private FriendshipDAO friendshipDAO;
     private PostDAO postDAO;
+    private CommentDAO commentDAO;
+    private LikeDAO likeDAO;
+
     private FirebaseAuth auth;
 
     private Controller() {
         this.dto = new DTO();
         this.userDAO = new UserDAO();
+        this.educationDAO = new EducationDAO();
+        this.friendshipDAO = new FriendshipDAO();
         this.postDAO = new PostDAO();
+        this.commentDAO = new CommentDAO();
+        this.likeDAO = new LikeDAO();
         this.auth = FirebaseAuth.getInstance();
     }
 
@@ -37,6 +53,7 @@ public class Controller
         return dto;
     }
 
+    //authentication
     public void sendPasswordResetEmail(String email){
         auth.sendPasswordResetEmail(email);
     }
@@ -62,16 +79,17 @@ public class Controller
             throw new ControlException("Invalid Sign-In credentials.");
     }
 
+    //user
     public void addUser(){
         userDAO.addUser(dto.getUser());
     }
 
-    public void updateUser(User user) throws ControlException{
-        userDAO.updateUser(user);
+    public void updateUser() throws ControlException{
+        userDAO.updateUser(dto.getUser());
     }
 
-    public void deleteUser(String userID) throws ControlException{
-        userDAO.deleteUser(userID);
+    public void deleteUser(String user_id) throws ControlException{
+        userDAO.deleteUser(user_id);
     }
 
     public void listenUser(Activity activity, String user_id, UserEventListener listener) throws ControlException {
@@ -82,5 +100,76 @@ public class Controller
         userDAO.listen(activity, user, listener);
     }
 
+    //education
+    public void addEducation(String user_id) throws ControlException{
+        educationDAO.add(user_id, dto.getEducation());
+    }
+
+    public void updateEducation(String user_id) throws ControlException{
+        educationDAO.update(user_id, dto.getEducation());
+    }
+
+    public void deleteEducation(String user_id, String education_id) throws ControlException{
+        educationDAO.delete(user_id, education_id);
+    }
+
+    public void listenEducation(Activity activity, String user_id, EducationEventListener listener) throws ControlException{
+        educationDAO.listen(activity, user_id, listener);
+    }
+
+    //friendship
+    public void addFriendship() throws ControlException{
+        friendshipDAO.add(dto.getFriendship());
+    }
+
+    public void acceptFriendship(String friendship_id) throws ControlException{
+        friendshipDAO.accept(friendship_id);
+    }
+
+    public void rejectFriendship(String friendship_id) throws ControlException{
+        friendshipDAO.reject(friendship_id);
+    }
+
+    public void listenFriendship(Activity activity, String user_id, FriendshipEventListener listener) throws ControlException{
+        friendshipDAO.listen(activity, user_id, FriendshipDAO.SENDER_ID_FIELD_NAME, listener);
+        friendshipDAO.listen(activity, user_id, FriendshipDAO.RECEIVER_ID_FIELD_NAME, listener);
+    }
+
+    //posts
+    public void addPost(){
+        postDAO.add(dto.getPost());
+    }
+
+    public void updatePost() throws ControlException{
+        postDAO.update(dto.getPost());
+    }
+
+    public void deletePost(String post_id) throws ControlException{
+        postDAO.delete(post_id);
+    }
+
+    public void listenPost(Activity activity, String user_id, PostEventListener listener) throws ControlException{
+        postDAO.listen(activity, user_id, listener);
+    }
+
+    //comments
+    public void addComment(String post_id) throws ControlException{
+        commentDAO.add(post_id, dto.getComment());
+    }
+
+    public void updateComment(String post_id) throws ControlException{
+        commentDAO.update(post_id, dto.getComment());
+    }
+
+    public void deleteComment(String post_id, String comment_id) throws ControlException{
+        commentDAO.delete(post_id, comment_id);
+    }
+
+    //NOTE: post_id refers to the parent post id, not the comment itself.
+    public void listenComment(Activity activity, String post_id, PostEventListener listener) throws ControlException{
+        commentDAO.listen(activity, post_id, listener);
+    }
+
     public static Controller getInstance(){ return instance; }
 }
+
