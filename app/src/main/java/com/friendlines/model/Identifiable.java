@@ -2,7 +2,7 @@ package com.friendlines.model;
 
 import com.google.firebase.firestore.Exclude;
 
-public class FirebaseItem {
+public abstract class Identifiable {
     @Exclude
     private String id;
 

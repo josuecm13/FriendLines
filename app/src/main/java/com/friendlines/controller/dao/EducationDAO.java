@@ -23,30 +23,55 @@ public class EducationDAO {
 
     public EducationDAO(){}
 
-    public void add(Education education){
-        FirebaseFirestore.getInstance().collection(COLLECTION_NAME).add(education);
+    public void add(String user_id, Education education) throws ControlException{
+        if(user_id == null)
+            throw new ControlException("A user ID must be provided to add an education to.");
+        else
+            FirebaseFirestore.getInstance()
+                    .collection(UserDAO.COLLECTION_NAME)
+                    .document(user_id)
+                    .collection(COLLECTION_NAME)
+                    .add(education);
     }
 
-    public void update(Education education) throws ControlException {
+    public void update(String user_id, Education education) throws ControlException {
+        if(user_id == null)
+            throw new ControlException("An user_id must be provided to update its education.");
         if(education.getId() == null)
-            throw new ControlException("An education ID must be provided to update");
+            throw new ControlException("An education ID must be provided to update.");
         else {
             HashMap<String, Object> map = new HashMap();
-            map.put("auth_id", education.getType());
-            map.put("firstname", education.getInstitution());
-            FirebaseFirestore.getInstance().collection(COLLECTION_NAME).document(education.getId()).update(map);
+            map.put("institution", education.getInstitution());
+            map.put("type", education.getType());
+            FirebaseFirestore.getInstance()
+                    .collection(UserDAO.COLLECTION_NAME)
+                    .document(user_id)
+                    .collection(COLLECTION_NAME)
+                    .document(education.getId())
+                    .update(map);
         }
     }
 
-    public void delete(String id){
-        FirebaseFirestore.getInstance().collection(COLLECTION_NAME).document(id).delete();
+    public void delete(String user_id, String education_id) throws ControlException{
+        if(user_id == null)
+            throw new ControlException("An user_id must be provided to delete its education.");
+        else if(education_id == null)
+            throw new ControlException("An education ID must be provided to delete.");
+        else
+            FirebaseFirestore.getInstance()
+                    .collection(UserDAO.COLLECTION_NAME)
+                    .document(user_id)
+                    .collection(COLLECTION_NAME)
+                    .document(education_id)
+                    .delete();
     }
 
     public void listen(Activity activity, String user_id, final EducationEventListener listener) throws ControlException{
         if(user_id == null)
-            throw new ControlException("A user ID must be provided to listen to its education changes.");
+            throw new ControlException("A user ID must be provided to listen to its educations.");
         else {
-            FirebaseFirestore.getInstance().collection(UserDAO.COLLECTION_NAME)
+            FirebaseFirestore.getInstance()
+                    .collection(UserDAO.COLLECTION_NAME)
                     .document(user_id)
                     .collection(COLLECTION_NAME)
                     .addSnapshotListener(activity, new EventListener<QuerySnapshot>() {

@@ -2,7 +2,7 @@ package com.friendlines.model;
 
 import com.google.firebase.Timestamp;
 
-public class User extends FirebaseItem {
+public class User extends Identifiable {
     private String auth_id;
     private String firstname;
     private String lastname;

@@ -1,10 +1,10 @@
 package com.friendlines.model;
 
-public class Like extends FirebaseItem {
+public class Like extends Identifiable {
+    public static final int LIKED_VALUE = 1;
+    public static final int DISLIKED_VALUE = -1;
+
     private String user_id;
-    //likes can happen both on posts and comments,
-    //so a collection id must be specified to differentiate
-    //either comments or posts
     private int value;
 
     public Like(){}

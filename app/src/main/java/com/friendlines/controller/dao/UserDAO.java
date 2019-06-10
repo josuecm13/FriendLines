@@ -58,10 +58,9 @@ public class UserDAO
 
     public void deleteUser(String user_id) throws ControlException{
         if(user_id == null)
-            throw new ControlException("A user document ID must be provided to delete a user.");
-        else{
+            throw new ControlException("A user ID must be provided to delete.");
+        else
             FirebaseFirestore.getInstance().collection(COLLECTION_NAME).document(user_id).delete();
-        }
     }
 
     public void listen(Activity activity, FirebaseUser user, final UserEventListener listener) throws ControlException{
@@ -99,7 +98,10 @@ public class UserDAO
         if(user_id == null)
             throw new ControlException("A user ID must be provided to listen to its changes.");
         else {
-            FirebaseFirestore.getInstance().collection(COLLECTION_NAME).document(user_id).addSnapshotListener(activity, new EventListener<DocumentSnapshot>() {
+            FirebaseFirestore.getInstance()
+                    .collection(COLLECTION_NAME)
+                    .document(user_id)
+                    .addSnapshotListener(activity, new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                     if(e != null)
@@ -108,9 +110,9 @@ public class UserDAO
                         User user = documentSnapshot.toObject(User.class);
                         user.setId(documentSnapshot.getId());
                         if(!documentSnapshot.exists())
-                            listener.onUserDeleted(user);
+                            listener.onUserDeleted(user); //MISSING: Delete user remnants
                         else{
-                            listener.onUserChanged(user);
+                            listener.onUserAdded(user);
                             listener.onUserChanged(user);
                         }
                     }

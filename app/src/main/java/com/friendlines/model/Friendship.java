@@ -2,8 +2,12 @@ package com.friendlines.model;
 
 import com.google.firebase.Timestamp;
 
-public class Friendship extends FirebaseItem
+public class Friendship extends Identifiable
 {
+    //valid status states
+    public static final String PENDING_STATUS = "PENDING";
+    public static final String ACCEPTED_STATUS = "ACCEPTED";
+
     private String sender_id;
     private String sender_name;
     private String sender_image;
