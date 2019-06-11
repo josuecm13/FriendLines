@@ -32,9 +32,9 @@ public class SplashActivity extends AppCompatActivity {
                         if(!Controller.getInstance().singedIn())
                             startActivity(LaunchActivity.class);
                         else{
-                            Controller.getInstance().signIn(SplashActivity.this, new TaskListener() {
+                            Controller.getInstance().signIn(SplashActivity.this, new TaskListener<Void>() {
                                 @Override
-                                public void onSuccess(Object object) {
+                                public void onSuccess(Void object) {
                                     startActivity(MainActivity.class);
                                 }
 

@@ -38,9 +38,9 @@ public class LoginActivity extends AppCompatActivity {
     {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        Controller.getInstance().signIn(this, email, password, new TaskListener() {
+        Controller.getInstance().signIn(this, email, password, new TaskListener<Void>() {
             @Override
-            public void onSuccess(Object object) {
+            public void onSuccess(Void object) {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
 

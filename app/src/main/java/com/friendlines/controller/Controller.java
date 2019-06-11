@@ -60,7 +60,7 @@ public class Controller
         auth.sendPasswordResetEmail(email);
     }
 
-    public void register(Activity activity, String email, String password, final TaskListener listener){
+    public void register(Activity activity, String email, String password, final TaskListener<Void> listener){
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@Nonnull Task<AuthResult> task) {
@@ -75,7 +75,7 @@ public class Controller
         });
     }
 
-    public void signIn(Activity activity, String email, String password, final TaskListener listener) {
+    public void signIn(Activity activity, String email, String password, final TaskListener<Void> listener) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -90,7 +90,7 @@ public class Controller
         });
     }
 
-    public void signIn(Activity activity, final TaskListener listener){
+    public void signIn(Activity activity, final TaskListener<Void> listener){
         auth.getCurrentUser().reload().addOnCompleteListener(activity, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -131,10 +131,7 @@ public class Controller
     }
 
     public void listenUser(Activity activity, UserEventListener listener) throws ControlException {
-        if(auth.getCurrentUser() == null)
-            throw new ControlException("No user is currently logged in.");
-        else
-            userDAO.listen(activity, auth.getCurrentUser(), listener);
+        userDAO.listen(activity, auth.getCurrentUser(), listener);
     }
 
     //NOTE: queries both the firstname and the lastname of all users

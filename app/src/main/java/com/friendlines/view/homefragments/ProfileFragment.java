@@ -69,24 +69,18 @@ public class ProfileFragment extends Fragment implements UserEventListener {
         return view;
     }
 
-    //eduardo este método está como prueba de concepto para ver una vara mañana con
-    //canales - Alejandro
-    public void populate(User user){
+    @Override
+    public void onUserChanged(User user) {
         Log.d(Controller.TAG, user.getAuth_id());
         Log.d(Controller.TAG, user.getFirstname());
         Log.d(Controller.TAG, user.getLastname());
-    }
-
-    //el listener se debe implementar como un listener anónimo,
-    //como está en MainActivity.java
-    @Override
-    public void onUserChanged(User user) {
-        nameTextView.setText(user.getFirstname()+ " " + user.getLastname());
-        Picasso.with(getContext()).load(user.getImage()).into(profileImage);
+        //comento estas líneas solo para probar que lo de arriba funciona
+        //nameTextView.setText(user.getFirstname()+ " " + user.getLastname());
+        //Picasso.with(getContext()).load(user.getImage()).into(profileImage);
     }
 
     @Override
     public void onUserDeleted(User user) {
-        //
+
     }
 }

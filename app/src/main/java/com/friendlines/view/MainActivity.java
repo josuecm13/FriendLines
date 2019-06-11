@@ -74,10 +74,10 @@ public class MainActivity extends AppCompatActivity
         if(firstTime){
             firstTime = false;
             //ejecutar todo lo necesario durante la primera carga del usuario
-            //como setear otros listeners por ejemplo
+            //como crear otros listeners por ejemplo
         }
-        //ejecutar todo lo necesario cuando llegue cualquier modificación al objeto de usuario
-        profileFragment.populate(user);
+        //ejecutar todo lo necesario cuando llegue cualquier modificación al objeto de User
+        profileFragment.onUserChanged(user);
     }
 
     private void userWasDeleted(){

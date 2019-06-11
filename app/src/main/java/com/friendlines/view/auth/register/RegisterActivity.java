@@ -112,9 +112,9 @@ public class RegisterActivity extends AppCompatActivity {
             EditText email = findViewById(R.id.email_edit_text);
             User user = controller.getDto().getUser();
             user.setEmail(email.getText().toString());
-            controller.register(this, user.getEmail(), password.getText().toString(), new TaskListener() {
+            controller.register(this, user.getEmail(), password.getText().toString(), new TaskListener<Void>() {
                 @Override
-                public void onSuccess(Object object) {
+                public void onSuccess(Void object) {
                     controller.getDto().getUser().setAuth_id(FirebaseAuth.getInstance().getUid());
                     controller.addUser();
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
