@@ -74,13 +74,12 @@ public class ProfileFragment extends Fragment implements UserEventListener {
         Log.d(Controller.TAG, user.getAuth_id());
         Log.d(Controller.TAG, user.getFirstname());
         Log.d(Controller.TAG, user.getLastname());
-        //comento estas líneas solo para probar que lo de arriba funciona
         //nameTextView.setText(user.getFirstname()+ " " + user.getLastname());
         //Picasso.with(getContext()).load(user.getImage()).into(profileImage);
     }
 
     @Override
     public void onUserDeleted(User user) {
-
+        //
     }
 }

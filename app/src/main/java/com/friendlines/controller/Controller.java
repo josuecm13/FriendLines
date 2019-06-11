@@ -218,6 +218,25 @@ public class Controller
         commentDAO.listen(activity, post_id, listener);
     }
 
+    //likes
+    public void addLike(String post_id) throws ControlException{
+        //likeDAO.add(post_id, dto.getLike());
+    }
+
+    public void addLike(String post_id, String comment_id) throws ControlException{
+        //likeDAO.add(post_id, comment_id, dto.getLike());
+    }
+
+    public void updateLike(String post_id) throws ControlException{
+        //likeDAO.update(post_id, dto.getLike());
+    }
+
+    public void updateLike(String post_id, String comment_id) throws ControlException{
+        //likeDAO.update(post_id, comment_id, dto.getLike());
+    }
+
+    //public void deleteLike(String post_id)
+
     public static Controller getInstance(){ return instance; }
 }
 
