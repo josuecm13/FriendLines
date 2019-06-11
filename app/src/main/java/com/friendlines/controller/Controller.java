@@ -18,6 +18,7 @@ import com.friendlines.controller.listeners.QueryListener;
 import com.friendlines.controller.listeners.SignUpListener;
 import com.friendlines.controller.listeners.UserEventListener;
 import com.friendlines.model.User;
+import com.friendlines.model.post.Post;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -165,6 +166,10 @@ public class Controller
 
     public void listenPost(Activity activity, PostEventListener listener){
         postDAO.listen(activity, listener);
+    }
+
+    public void queryPosts(Activity activity, String text, QueryListener<Post> listener){
+        postDAO.query(activity, text, listener);
     }
 
     //comments

@@ -1,14 +1,18 @@
 package com.friendlines.controller.dao;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
 import com.friendlines.controller.listeners.PostEventListener;
+import com.friendlines.controller.listeners.QueryListener;
 import com.friendlines.model.post.ImagePost;
 import com.friendlines.model.post.Post;
 import com.friendlines.model.post.VideoPost;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -131,5 +135,34 @@ public class PostDAO {
                 }
             });
         }
+    }
+
+    //queries posts which contain a given text
+    public void query(Activity activity, final String text, final QueryListener<Post> listener){
+        FirebaseFirestore.getInstance()
+                .collection(COLLECTION_NAME)
+                .get()
+                .addOnCompleteListener(activity, new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (!task.isSuccessful()) {
+                    listener.onError(new ControlException("On PostDAO.query with text = " + text));
+                } else {
+                    for (DocumentChange change : task.getResult().getDocumentChanges()) {
+                        String type = (String)change.getDocument().get("type");
+                        Post post;
+                        if(type.equals(ImagePost.TYPE))
+                            post = change.getDocument().toObject(ImagePost.class);
+                        else if(type.equals(VideoPost.TYPE))
+                            post = change.getDocument().toObject(VideoPost.class);
+                        else //if post's type is Post.TYPE
+                            post = change.getDocument().toObject(Post.class);
+                        post.setId(change.getDocument().getId());
+                        if(post.getText().contains(text))
+                            listener.onSuccess(post);
+                    }
+                }
+            }
+        });
     }
 }
