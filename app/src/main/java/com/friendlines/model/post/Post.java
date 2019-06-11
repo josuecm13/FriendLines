@@ -72,4 +72,10 @@ public class Post extends Identifiable
     public void setCreated(Timestamp created) {
         this.created = created;
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        return ((Post)o).getId().equals(this.getId());
+    }
 }
