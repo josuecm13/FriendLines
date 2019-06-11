@@ -15,4 +15,15 @@ public abstract class Identifiable {
     public void setId(String id){
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if(!(o instanceof Identifiable))
+            return false;
+        else if(this.getId() == null || ((Identifiable)o).getId() == null)
+            return false;
+        else
+            return ((Identifiable)o).getId().equals(this.getId());
+    }
 }
