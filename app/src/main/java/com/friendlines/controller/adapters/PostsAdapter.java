@@ -1,6 +1,8 @@
 package com.friendlines.controller.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +18,7 @@ import com.friendlines.R;
 import com.friendlines.controller.Controller;
 import com.friendlines.model.post.Post;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -42,7 +45,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
     public void onBindViewHolder(@NonNull PostViewHolder postViewHolder, int i) {
         final Post post = postList.get(i);
         postViewHolder.name.setText(post.getUser_name());
-        //TODO: set iamge url picasso
+        Picasso.with(context).load(post.getUser_image()).into(postViewHolder.image);
         postViewHolder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,8 +59,23 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
         postViewHolder.options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Abrir menu de opciones o eliminar la publicacion
-
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Are you sure you want to delete it?")
+                        .setCancelable(true)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //delete in firebase
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
         postViewHolder.description.setText(post.getText());

@@ -25,18 +25,17 @@
                 android:layout_margin="10dp"
                 android:src="@raw/person_placeholder"/>
 
-            <LinearLayout
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxWidth="281dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:textColor="@android:color/background_dark"
                     android:text="Pepito Pérez Rodriguez"
                     />
@@ -46,10 +45,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:layout_below="@id/name"
                     android:textColor="@color/colorPrimaryDark"
                     android:text="14 mutual friends"/>
 
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/remove"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_remove_circle_black_24dp"
+                    android:tint="@color/lightBlackText"
+                    android:layout_alignParentEnd="true"/>
+
+
+            </RelativeLayout>
 
         </LinearLayout>
 

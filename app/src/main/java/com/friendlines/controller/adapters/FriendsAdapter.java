@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.friendlines.R;
 import com.friendlines.model.Friendship;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.Holder>{
     public void onBindViewHolder(@NonNull Holder holder, int i) {
         Friendship f = friendshipList.get(i);
         holder.name.setText(f.getSender_name());
-        //holder.image.setImageResource();
+        Picasso.with(context).load(f.getSender_image()).into(holder.image);
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
