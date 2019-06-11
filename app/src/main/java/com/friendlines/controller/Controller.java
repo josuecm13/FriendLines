@@ -102,8 +102,8 @@ public class Controller
         userDAO.listen(activity, user_id, listener);
     }
 
-    public void listenUser(Activity activity, FirebaseUser user, UserEventListener listener) throws ControlException {
-        userDAO.listen(activity, user, listener);
+    public void listenUser(Activity activity, UserEventListener listener) throws ControlException {
+        userDAO.listen(activity, auth.getCurrentUser(), listener);
     }
 
     //NOTE: queries both the firstname and the lastname of all users
