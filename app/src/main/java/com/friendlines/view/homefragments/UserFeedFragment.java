@@ -95,8 +95,4 @@ public class UserFeedFragment extends Fragment {
             Log.e("Error", e.getMessage());
         }
     }
-
-    private void deletePost(int i)
-    {
-    }
 }
