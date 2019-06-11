@@ -1,12 +1,16 @@
 package com.friendlines.controller.dao;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
+import com.friendlines.controller.listeners.QueryListener;
 import com.friendlines.controller.listeners.UserEventListener;
 import com.friendlines.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -21,6 +25,9 @@ import javax.annotation.Nullable;
 public class UserDAO
 {
     public static final String COLLECTION_NAME = "users";
+    //valid field names for user names
+    public static final String USER_FIRSTNAME_FIELD_NAME = "firstname";
+    public static final String USER_LASTNAME_FIELD_NAME = "lastname";
 
     public UserDAO(){}
 
@@ -78,7 +85,7 @@ public class UserDAO
                             user.setId(change.getDocument().getId());
                             switch(change.getType()){
                                 case ADDED:
-                                    listener.onUserAdded(user);
+                                    listener.onUserChanged(user);
                                     break;
                                 case MODIFIED:
                                     listener.onUserChanged(user);
@@ -112,8 +119,50 @@ public class UserDAO
                         if(!documentSnapshot.exists())
                             listener.onUserDeleted(user); //MISSING: Delete user remnants
                         else{
-                            listener.onUserAdded(user);
                             listener.onUserChanged(user);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private String getPrefixSuccessor(String string) {
+        if (string.equals(""))
+            return string;
+        else {
+            int last = string.charAt(string.length() - 1);
+            if (string.length() == 1)
+                return String.valueOf((char)last+1);
+            else
+                return string.substring(0, string.length() - 2) + ((char)last+1);
+        }
+    }
+
+    //matches any string field which starts with the specified prefix
+    public void query(Activity activity, final String field, final String prefix, final QueryListener<User> listener) throws ControlException{
+        if(prefix == null || prefix.equals(""))
+            throw new ControlException("Text needed to perform search.");
+        else if(!field.equals(USER_FIRSTNAME_FIELD_NAME) && !field.equals(USER_LASTNAME_FIELD_NAME))
+            throw new ControlException("Invalid field parameter in UserDAO's listen method: "+field);
+        else {
+            final String successor = getPrefixSuccessor(prefix);
+            FirebaseFirestore.getInstance()
+                    .collection(COLLECTION_NAME)
+                    .whereGreaterThanOrEqualTo(field, prefix)
+                    .whereLessThan(field, successor)
+                    .get().addOnCompleteListener(activity, new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        listener.onError(new ControlException("On UserDAO.query with field = " + field
+                                + ", prefix  = " + prefix +
+                                ", successor = " + successor));
+                    } else {
+                        for (DocumentChange change : task.getResult().getDocumentChanges()) {
+                            User user = change.getDocument().toObject(User.class);
+                            user.setId(change.getDocument().getId());
+                            listener.onSuccess(user);
                         }
                     }
                 }

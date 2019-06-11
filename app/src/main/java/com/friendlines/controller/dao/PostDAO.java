@@ -54,6 +54,44 @@ public class PostDAO {
         FirebaseFirestore.getInstance().collection(COLLECTION_NAME).document(id).delete();
     }
 
+    //listen to all posts
+    public void listen(Activity activity, final PostEventListener listener){
+        FirebaseFirestore.getInstance()
+                .collection(COLLECTION_NAME)
+                .addSnapshotListener(activity, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot querySnapshot, @Nullable FirebaseFirestoreException e) {
+                if(e != null)
+                    Log.d(Controller.TAG, "PostDAO listen error: " + e);
+                else{
+                    for(DocumentChange change : querySnapshot.getDocumentChanges()){
+                        String type = (String)change.getDocument().get("type");
+                        Post post;
+                        if(type.equals(ImagePost.TYPE))
+                            post = change.getDocument().toObject(ImagePost.class);
+                        else if(type.equals(VideoPost.TYPE))
+                            post = change.getDocument().toObject(VideoPost.class);
+                        else //if post's type is Post.TYPE
+                            post = change.getDocument().toObject(Post.class);
+                        post.setId(change.getDocument().getId());
+                        switch(change.getType()){
+                            case ADDED:
+                                listener.onPostAdded(post);
+                                break;
+                            case MODIFIED:
+                                listener.onPostChanged(post);
+                                break;
+                            case REMOVED:
+                                listener.onPostDeleted(post);
+                                break;
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    //listen posts by user
     public void listen(Activity activity, String user_id, final PostEventListener listener) throws ControlException {
         if(user_id == null)
             throw new ControlException("a user ID must be provided to listen to its posts.");
@@ -65,7 +103,7 @@ public class PostDAO {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot querySnapshot, @Nullable FirebaseFirestoreException e) {
                     if(e != null)
-                        Log.d(Controller.TAG, "PostDAO listen error: " + e);
+                        Log.d(Controller.TAG, "PostDAO listen by user_id error: " + e);
                     else{
                         for(DocumentChange change : querySnapshot.getDocumentChanges()){
                             String type = (String)change.getDocument().get("type");

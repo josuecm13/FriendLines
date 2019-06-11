@@ -14,6 +14,7 @@ import com.friendlines.controller.dao.UserDAO;
 import com.friendlines.controller.listeners.EducationEventListener;
 import com.friendlines.controller.listeners.FriendshipEventListener;
 import com.friendlines.controller.listeners.PostEventListener;
+import com.friendlines.controller.listeners.QueryListener;
 import com.friendlines.controller.listeners.SignUpListener;
 import com.friendlines.controller.listeners.UserEventListener;
 import com.friendlines.model.User;
@@ -79,6 +80,10 @@ public class Controller
             throw new ControlException("Invalid Sign-In credentials.");
     }
 
+    public FirebaseUser getAuthUser(){
+        return auth.getCurrentUser();
+    }
+
     //user
     public void addUser(){
         userDAO.addUser(dto.getUser());
@@ -98,6 +103,12 @@ public class Controller
 
     public void listenUser(Activity activity, FirebaseUser user, UserEventListener listener) throws ControlException {
         userDAO.listen(activity, user, listener);
+    }
+
+    //NOTE: queries both the firstname and the lastname of all users
+    public void queryUsers(Activity activity, String name, QueryListener<User> listener) throws ControlException{
+        userDAO.query(activity, UserDAO.USER_FIRSTNAME_FIELD_NAME, name, listener);
+        userDAO.query(activity, UserDAO.USER_LASTNAME_FIELD_NAME, name, listener);
     }
 
     //education
@@ -150,6 +161,10 @@ public class Controller
 
     public void listenPost(Activity activity, String user_id, PostEventListener listener) throws ControlException{
         postDAO.listen(activity, user_id, listener);
+    }
+
+    public void listenPost(Activity activity, PostEventListener listener){
+        postDAO.listen(activity, listener);
     }
 
     //comments
