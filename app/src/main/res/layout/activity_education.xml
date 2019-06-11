@@ -6,4 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".view.profile.EducationActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Education"
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            style="@style/title_text"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:id="@+id/create_post"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:background="@drawable/round_corner"
+                android:textAllCaps="false"
+                android:layout_marginStart="10dp"
+                android:layout_centerVertical="true"
+                android:textAlignment="viewStart"
+                android:hint="Add studies..."/>
+
+            <ImageButton
+                android:id="@+id/add_education"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/round_corner"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:backgroundTint="@color/colorPrimary"
+                android:src="@drawable/plus"
+                android:onClick="addStudy"
+                />
+
+            </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

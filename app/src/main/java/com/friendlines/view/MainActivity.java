@@ -41,6 +41,18 @@ public class MainActivity extends AppCompatActivity
         notificationsFragment = new NotificationsFragment();
         searchFragment = new SearchFragment();
         fragmentPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(userFeedFragment, "User feed");
+        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(friendsFragment, "Friends");
+        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(profileFragment, "Profile");
+        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(searchFragment, "Search");
+        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(notificationsFragment, "Notifications");
+        //ViewPager
+        viewPager = findViewById(R.id.view_pager_home);
+        viewPager.setAdapter(fragmentPagerAdapter);
+        //TabLayout
+        tabLayout = findViewById(R.id.tab_layout_home);
+        tabLayout.setupWithViewPager(viewPager);
+
         try {
             Controller.getInstance().listenUser(this, new UserEventListener() {
                 @Override
@@ -50,34 +62,22 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void onUserDeleted(User user) {
-                    //acá no importa el usuario que llega porque solo puede ser el que
-                    //está usando el app, entonces no lo recibo en el método de abajo.
                     userWasDeleted();
                 }
             });
         } catch(ControlException e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
-
-        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(new UserFeedFragment(), "User feed");
-        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(new FriendsFragment(), "Friends");
-        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(new ProfileFragment(), "Profile");
-        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(new SearchFragment(), "Search");
-        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(new NotificationsFragment(), "Notifications");
-        //ViewPager
-        viewPager = findViewById(R.id.view_pager_home);
-        viewPager.setAdapter(fragmentPagerAdapter);
-        //TabLayout
-        tabLayout = findViewById(R.id.tab_layout_home);
-        tabLayout.setupWithViewPager(viewPager);
     }
 
     private void gotUserData(User user){
         if(firstTime){
             firstTime = false;
             //ejecutar todo lo necesario durante la primera carga del usuario
+            //como setear otros listeners por ejemplo
         }
         //ejecutar todo lo necesario cuando llegue cualquier modificación al objeto de usuario
+        profileFragment.populate(user);
     }
 
     private void userWasDeleted(){

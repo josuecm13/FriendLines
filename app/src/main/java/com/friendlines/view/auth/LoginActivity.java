@@ -11,17 +11,22 @@ import android.widget.Toast;
 import com.friendlines.R;
 import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
+import com.friendlines.controller.listeners.TaskListener;
 import com.friendlines.view.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
     Toolbar mActionBarToolbar;
+    EditText emailEditText;
+    EditText passwordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initComponents();
+        emailEditText = findViewById(R.id.email_edit_text);
+        passwordEditText = findViewById(R.id.password_edit_text);
     }
 
     private void initComponents(){
@@ -31,17 +36,19 @@ public class LoginActivity extends AppCompatActivity {
     }
     public void signIn(View view)
     {
-        EditText email = findViewById(R.id.email_edit_text);
-        EditText password = findViewById(R.id.password_edit_text);
-        try
-        {
-            Controller.getInstance().signInUserAuthentication(email.getText().toString(), password.getText().toString());
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        }
-        catch (ControlException e)
-        {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+        String email = emailEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        Controller.getInstance().signIn(this, email, password, new TaskListener() {
+            @Override
+            public void onSuccess(Object object) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+
+            @Override
+            public void onFailure(ControlException exception) {
+                Toast.makeText(LoginActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void goToRecoverPassword(View view) {

@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.friendlines.R;
+import com.friendlines.controller.ControlException;
+import com.friendlines.controller.Controller;
+import com.friendlines.controller.listeners.TaskListener;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -22,18 +25,34 @@ public class SplashActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
 
-
-
         new Handler().postDelayed(
                 new Runnable() {
                     @Override
                     public void run() {
-                        Intent i = new Intent(getApplicationContext(), LaunchActivity.class);
-                        startActivity(i);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                        finish();
+                        if(!Controller.getInstance().singedIn())
+                            startActivity(LaunchActivity.class);
+                        else{
+                            Controller.getInstance().signIn(SplashActivity.this, new TaskListener() {
+                                @Override
+                                public void onSuccess(Object object) {
+                                    startActivity(MainActivity.class);
+                                }
+
+                                @Override
+                                public void onFailure(ControlException exception) {
+                                    startActivity(LaunchActivity.class);
+                                }
+                            });
+                        }
                     }
                 }
                 , DURATION_SPLASH);
+    }
+
+    private void startActivity(Class activityClass){
+        Intent i = new Intent(getApplicationContext(), activityClass);
+        startActivity(i);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        finish();
     }
 }

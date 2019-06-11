@@ -7,7 +7,7 @@ import android.util.Log;
 import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
 import com.friendlines.controller.listeners.PostEventListener;
-import com.friendlines.controller.listeners.QueryListener;
+import com.friendlines.controller.listeners.TaskListener;
 import com.friendlines.model.post.ImagePost;
 import com.friendlines.model.post.Post;
 import com.friendlines.model.post.VideoPost;
@@ -138,7 +138,7 @@ public class PostDAO {
     }
 
     //queries posts which contain a given text
-    public void query(Activity activity, final String text, final QueryListener<Post> listener){
+    public void query(Activity activity, final String text, final TaskListener<Post> listener){
         FirebaseFirestore.getInstance()
                 .collection(COLLECTION_NAME)
                 .get()
@@ -146,7 +146,7 @@ public class PostDAO {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (!task.isSuccessful()) {
-                    listener.onError(new ControlException("On PostDAO.query with text = " + text));
+                    listener.onFailure(new ControlException("On PostDAO.query with text = " + text));
                 } else {
                     for (DocumentChange change : task.getResult().getDocumentChanges()) {
                         String type = (String)change.getDocument().get("type");

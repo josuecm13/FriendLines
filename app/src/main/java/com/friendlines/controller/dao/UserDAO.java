@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
-import com.friendlines.controller.listeners.QueryListener;
+import com.friendlines.controller.listeners.TaskListener;
 import com.friendlines.controller.listeners.UserEventListener;
 import com.friendlines.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -130,7 +130,7 @@ public class UserDAO
     }
 
     //matches any string field which starts with the specified prefix
-    public void query(Activity activity, final String field, final String prefix, final QueryListener<User> listener) throws ControlException{
+    public void query(Activity activity, final String field, final String prefix, final TaskListener<User> listener) throws ControlException{
         if(prefix == null || prefix.equals(""))
             throw new ControlException("Text needed to perform search.");
         else if(!field.equals(USER_FIRSTNAME_FIELD_NAME) && !field.equals(USER_LASTNAME_FIELD_NAME))
@@ -145,7 +145,7 @@ public class UserDAO
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (!task.isSuccessful()) {
-                        listener.onError(new ControlException("On UserDAO.query with field = " + field
+                        listener.onFailure(new ControlException("On UserDAO.query with field = " + field
                                 + ", prefix  = " + prefix +
                                 ", successor = " + successor));
                     } else {

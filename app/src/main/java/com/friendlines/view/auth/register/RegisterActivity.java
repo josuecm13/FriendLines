@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.friendlines.R;
 import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
-import com.friendlines.controller.listeners.SignUpListener;
+import com.friendlines.controller.listeners.TaskListener;
 import com.friendlines.model.User;
 import com.friendlines.view.LaunchActivity;
 import com.friendlines.view.MainActivity;
@@ -112,17 +112,17 @@ public class RegisterActivity extends AppCompatActivity {
             EditText email = findViewById(R.id.email_edit_text);
             User user = controller.getDto().getUser();
             user.setEmail(email.getText().toString());
-            controller.registerUserAuthentication(this, user.getEmail(), password.getText().toString(), new SignUpListener() {
+            controller.register(this, user.getEmail(), password.getText().toString(), new TaskListener() {
                 @Override
-                public void onSuccess() {
+                public void onSuccess(Object object) {
                     controller.getDto().getUser().setAuth_id(FirebaseAuth.getInstance().getUid());
                     controller.addUser();
-                    startActivity(new Intent(getApplicationContext(), LaunchActivity.class));
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }
 
                 @Override
-                public void onFailure(String error) {
-                    Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_LONG).show();
+                public void onFailure(ControlException exception) {
+                    Toast.makeText(RegisterActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         }

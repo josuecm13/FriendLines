@@ -1,6 +1,7 @@
 package com.friendlines.controller;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.friendlines.controller.dao.CommentDAO;
@@ -12,8 +13,7 @@ import com.friendlines.controller.dao.UserDAO;
 import com.friendlines.controller.listeners.EducationEventListener;
 import com.friendlines.controller.listeners.FriendshipEventListener;
 import com.friendlines.controller.listeners.PostEventListener;
-import com.friendlines.controller.listeners.QueryListener;
-import com.friendlines.controller.listeners.SignUpListener;
+import com.friendlines.controller.listeners.TaskListener;
 import com.friendlines.controller.listeners.UserEventListener;
 import com.friendlines.model.User;
 import com.friendlines.model.post.Post;
@@ -56,33 +56,61 @@ public class Controller
     }
 
     //authentication
-    public void sendPasswordResetEmail(String email){
+    public void resetPassword(String email){
         auth.sendPasswordResetEmail(email);
     }
 
-    public void registerUserAuthentication(Activity activity, String email, String password, final SignUpListener listener){
+    public void register(Activity activity, String email, String password, final TaskListener listener){
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@Nonnull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    listener.onSuccess();
+                    listener.onSuccess(null);
                 } else {
-                    Log.d(TAG, "registerUserAuthentication onComplete: failed");
+                    Log.d(TAG, "Controller.registerUserAuthentication onComplete: failed");
                     Log.d(TAG, task.getException().getMessage());
-                    listener.onFailure("Authentication failed.");
+                    listener.onFailure(new ControlException("Registration failed."));
                 }
             }
         });
     }
 
-    public void signInUserAuthentication(String email, String password) throws ControlException{
-        auth.signInWithEmailAndPassword(email, password);
-        if(auth.getCurrentUser() == null)
-            throw new ControlException("Invalid Sign-In credentials.");
+    public void signIn(Activity activity, String email, String password, final TaskListener listener) {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful())
+                    listener.onSuccess(null);
+                else{
+                    Log.d(TAG, "Controller.signIn email&password onComplete: failed");
+                    Log.d(TAG, task.getException().getMessage());
+                    listener.onFailure(new ControlException("Sign-in failed."));
+                }
+            }
+        });
     }
 
-    public FirebaseUser getAuthUser(){
-        return auth.getCurrentUser();
+    public void signIn(Activity activity, final TaskListener listener){
+        auth.getCurrentUser().reload().addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful())
+                    listener.onSuccess(null);
+                else{
+                    Log.d(TAG, "Control.signIn onComplete: failed");
+                    Log.d(TAG, task.getException().getMessage());
+                    listener.onFailure(new ControlException("User was deleted or its password reset."));
+                }
+            }
+        });
+    }
+
+    public void signOut(){
+        auth.signOut();
+    }
+
+    public boolean singedIn(){
+        return auth.getCurrentUser() != null;
     }
 
     //user
@@ -103,11 +131,14 @@ public class Controller
     }
 
     public void listenUser(Activity activity, UserEventListener listener) throws ControlException {
-        userDAO.listen(activity, auth.getCurrentUser(), listener);
+        if(auth.getCurrentUser() == null)
+            throw new ControlException("No user is currently logged in.");
+        else
+            userDAO.listen(activity, auth.getCurrentUser(), listener);
     }
 
     //NOTE: queries both the firstname and the lastname of all users
-    public void queryUsers(Activity activity, String name, QueryListener<User> listener) throws ControlException{
+    public void queryUsers(Activity activity, String name, TaskListener<User> listener) throws ControlException{
         userDAO.query(activity, UserDAO.USER_FIRSTNAME_FIELD_NAME, name, listener);
         userDAO.query(activity, UserDAO.USER_LASTNAME_FIELD_NAME, name, listener);
     }
@@ -168,7 +199,7 @@ public class Controller
         postDAO.listen(activity, listener);
     }
 
-    public void queryPosts(Activity activity, String text, QueryListener<Post> listener){
+    public void queryPosts(Activity activity, String text, TaskListener<Post> listener){
         postDAO.query(activity, text, listener);
     }
 
