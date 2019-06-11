@@ -32,16 +32,6 @@ public class UserDAO
     public UserDAO(){}
 
     public void addUser(User user){
-        Log.d(Controller.TAG, "auth_id: " + user.getAuth_id());
-        Log.d(Controller.TAG, "firstname: " + user.getFirstname());
-        Log.d(Controller.TAG, "lastname: " + user.getLastname());
-        Log.d(Controller.TAG, "email" + user.getEmail());
-        Log.d(Controller.TAG, "image: " + user.getImage());
-        Log.d(Controller.TAG, "birthday: " + user.getBirthday());
-        Log.d(Controller.TAG, "phone: " + user.getPhone());
-        Log.d(Controller.TAG, "gender: " + user.getGender());
-        Log.d(Controller.TAG, "city: " + user.getCity());
-        Log.d(Controller.TAG, "country: " + user.getCountry());
         FirebaseFirestore.getInstance().collection(COLLECTION_NAME).add(user);
     }
 

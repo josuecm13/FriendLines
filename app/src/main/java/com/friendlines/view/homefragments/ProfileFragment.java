@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.friendlines.R;
+import com.friendlines.controller.Controller;
 import com.friendlines.controller.adapters.PostsAdapter;
 import com.friendlines.controller.adapters.RequestsAdapter;
+import com.friendlines.model.User;
 import com.friendlines.model.post.Post;
 import com.google.firebase.Timestamp;
 
@@ -50,6 +53,12 @@ public class ProfileFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         return view;
+    }
+
+    public void populate(User user){
+        Log.d(Controller.TAG, user.getAuth_id());
+        Log.d(Controller.TAG, user.getFirstname());
+        Log.d(Controller.TAG, user.getLastname());
     }
 
 }
