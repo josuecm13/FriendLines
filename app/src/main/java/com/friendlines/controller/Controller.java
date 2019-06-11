@@ -12,6 +12,7 @@ import com.friendlines.controller.dao.PostDAO;
 import com.friendlines.controller.dao.UserDAO;
 import com.friendlines.controller.listeners.EducationEventListener;
 import com.friendlines.controller.listeners.FriendshipEventListener;
+import com.friendlines.controller.listeners.LikeEventListener;
 import com.friendlines.controller.listeners.PostEventListener;
 import com.friendlines.controller.listeners.TaskListener;
 import com.friendlines.controller.listeners.UserEventListener;
@@ -235,7 +236,21 @@ public class Controller
         //likeDAO.update(post_id, comment_id, dto.getLike());
     }
 
-    //public void deleteLike(String post_id)
+    public void deleteLike(String post_id, String like_id) throws ControlException{
+        likeDAO.delete(post_id, like_id);
+    }
+
+    public void deleteLike(String post_id, String comment_id, String like_id) throws ControlException{
+        likeDAO.delete(post_id, comment_id, like_id);
+    }
+
+    public void listenLike(Activity activity, String post_id, LikeEventListener listener) throws ControlException{
+        likeDAO.listen(activity, post_id, listener);
+    }
+
+    public void listenLike(Activity activity, String post_id, String comment_id, LikeEventListener listener) throws ControlException{
+        likeDAO.listen(activity, post_id, comment_id, listener);
+    }
 
     public static Controller getInstance(){ return instance; }
 }
