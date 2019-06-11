@@ -1,9 +1,7 @@
 package com.friendlines.controller;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.friendlines.controller.dao.CommentDAO;
 import com.friendlines.controller.dao.EducationDAO;
@@ -16,12 +14,13 @@ import com.friendlines.controller.listeners.FriendshipEventListener;
 import com.friendlines.controller.listeners.PostEventListener;
 import com.friendlines.controller.listeners.SignUpListener;
 import com.friendlines.controller.listeners.UserEventListener;
-import com.friendlines.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import javax.annotation.Nonnull;
 
 public class Controller
 {
@@ -61,7 +60,7 @@ public class Controller
     public void registerUserAuthentication(Activity activity, String email, String password, final SignUpListener listener){
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+            public void onComplete(@Nonnull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     listener.onSuccess();
                 } else {
