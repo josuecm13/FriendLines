@@ -1,11 +1,15 @@
 package com.friendlines.view;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -56,7 +60,39 @@ public class CreatePostActivity extends AppCompatActivity {
         openGallery();
     }
 
-    public void addVideo(View view) {
+    public void addVideo(View view)
+    {
+        //Extracted from https://stackoverflow.com/questions/10903754/input-text-dialog-android
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Insert your youtube link");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                youtubeLink = input.getText().toString();
+                if(!youtubeLink.startsWith("https://www.youtube.com/"))
+                {
+                    youtubeLink = null;
+                    Toast.makeText(getApplicationContext(), "Not valid youtube link",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     public void addEmoji(View view) {
@@ -73,7 +109,17 @@ public class CreatePostActivity extends AppCompatActivity {
         controller.getDto().getPost().setUser_name(controller.getDto().getUser().getFirstname() + " " + controller.getDto().getUser().getLastname());
         if(imageUri == null)
         {
-
+            if(youtubeLink == null)
+            {
+                controller.getDto().getPost().setType("TEXT");
+                controller.addPost();
+            }
+            else
+            {
+                controller.getDto().getPost().setUser_image(youtubeLink);
+                controller.getDto().getPost().setType("VIDEO");
+                controller.addPost();
+            }
         }
         else
         {
@@ -99,11 +145,12 @@ public class CreatePostActivity extends AppCompatActivity {
                         {
                             Uri downloadUri = task.getResult();
                             controller.getDto().getPost().setUser_image(downloadUri.toString());
+                            controller.getDto().getPost().setType("IMAGE");
                             controller.addPost();
                         }
                         else
                         {
-                            Toast.makeText(getApplicationContext(), "Error while uploading the file",Toast.LENGTH_SHORT);
+                            Toast.makeText(getApplicationContext(), "Error while uploading the file",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
