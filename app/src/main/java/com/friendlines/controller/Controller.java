@@ -137,6 +137,7 @@ public class Controller
 
     //NOTE: queries both the firstname and the lastname of all users
     public void queryUsers(Activity activity, String name, TaskListener<User> listener) throws ControlException{
+        Log.d(TAG, "queryUsers: " + name);
         userDAO.query(activity, UserDAO.USER_FIRSTNAME_FIELD_NAME, name, listener);
         userDAO.query(activity, UserDAO.USER_LASTNAME_FIELD_NAME, name, listener);
     }
