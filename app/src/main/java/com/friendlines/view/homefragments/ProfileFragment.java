@@ -49,7 +49,7 @@ public class ProfileFragment extends Fragment{
     Button education;
 
     public ProfileFragment() {
-
+        adapter = new PostsAdapter(new ArrayList<Post>(),getContext());
     }
 
     @Override
@@ -106,14 +106,6 @@ public class ProfileFragment extends Fragment{
                 startActivity(new Intent(getContext(), EducationActivity.class));
             }
         });
-
-        List<Post> posts = new ArrayList<>();
-        List<Post> allposts = Controller.getInstance().getDto().getPosts();
-        for (Post p: allposts){
-            if(p.getUser_id() == Controller.getInstance().getDto().getUser().getAuth_id())
-                posts.add(p);
-        }
-        adapter = new PostsAdapter(posts,getContext());
         recyclerView = view.findViewById(R.id.timeline_container);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
@@ -123,7 +115,7 @@ public class ProfileFragment extends Fragment{
 
     public void addFlilteredPost(Post post){
         if(post.getUser_id().equals(Controller.getInstance().getDto().getUser().getId()))
-        adapter.addPost(post);
+            adapter.addPost(post);
     }
 
     public void changeFilteredPost(Post post){

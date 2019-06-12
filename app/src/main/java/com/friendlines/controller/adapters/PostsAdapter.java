@@ -153,6 +153,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
         }
     }
 
+    public void setContext(Context c){
+        this.context = c;
+    }
+
     public void addPost(Post post){
         postList.add(post);
         notifyDataSetChanged();

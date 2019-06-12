@@ -48,9 +48,9 @@ public class MainActivity extends AppCompatActivity
         notificationsFragment = new NotificationsFragment();
         searchFragment = new SearchFragment();
         fragmentPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(profileFragment, "Profile");
         ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(userFeedFragment, "User feed");
         ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(friendsFragment, "Friends");
+        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(profileFragment, "Profile");
         ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(searchFragment, "Search");
         ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(notificationsFragment, "Notifications");
         //ViewPager
