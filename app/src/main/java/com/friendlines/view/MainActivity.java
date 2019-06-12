@@ -113,6 +113,8 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onFriendshipAccepted(Friendship friendship) {
                     controller.getDto().getFriendships().set(controller.getDto().getFriendships().indexOf(friendship), friendship);
+                    controller.getDto().getPosts().clear();
+                    loadPosts();
                     Log.e("Friend", "Accepted friend: " + friendship.getReceiver_name());
                 }
 
@@ -162,7 +164,7 @@ public class MainActivity extends AppCompatActivity
     {
         for(Friendship friendship : controller.getDto().getFriendships())
         {
-            if((post.getUser_id().equals(controller.getDto().getUser().getId()))|| friendship.getStatus().equals(Friendship.ACCEPTED_STATUS) && (friendship.getReceiver_id().equals(post.getUser_id()) || friendship.getSender_id().equals(post.getUser_id())))
+            if((post.getUser_id().equals(controller.getDto().getUser().getId())) || friendship.getStatus().equals(Friendship.ACCEPTED_STATUS) && (friendship.getReceiver_id().equals(post.getUser_id()) || friendship.getSender_id().equals(post.getUser_id())))
             {
                 controller.getDto().getPosts().add(post);
             }
