@@ -2,6 +2,7 @@ package com.friendlines;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +34,7 @@ public class CommentSection extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview);
         Controller.getInstance().getDto().getComments().clear();
         adapter = new PostsAdapter(Controller.getInstance().getDto().getComments(), this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(adapter);
         loadComments();
     }
@@ -68,18 +70,21 @@ public class CommentSection extends AppCompatActivity {
                 public void onPostAdded(Post post) {
                     Controller.getInstance().getDto().getComments().add(post);
                     adapter.notifyDataSetChanged();
+                    Log.e("Comment", "New comment");
                 }
 
                 @Override
                 public void onPostChanged(Post post) {
                     Controller.getInstance().getDto().getComments().set(Controller.getInstance().getDto().getComments().indexOf(post), post);
                     adapter.notifyDataSetChanged();
+                    Log.e("Comment", "Comment changed");
                 }
 
                 @Override
                 public void onPostDeleted(Post post) {
                     Controller.getInstance().getDto().getComments().remove(post);
                     adapter.notifyDataSetChanged();
+                    Log.e("Comment", "Comment deleted");
                 }
             });
         }
