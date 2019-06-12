@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.friendlines.CommentSection;
 import com.friendlines.R;
+import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
 import com.friendlines.model.post.Post;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -129,4 +131,15 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
         }
     }
 
+    private void deletePost(int i)
+    {
+        try
+        {
+            Controller.getInstance().deletePost(Controller.getInstance().getDto().getPosts().get(i).getId());
+        }
+        catch (ControlException e)
+        {
+            Log.e("Error", e.getMessage());
+        }
+    }
 }
