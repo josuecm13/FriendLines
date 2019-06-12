@@ -42,6 +42,8 @@ public class UserFeedFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_feed, container, false);
         Post post = new Post();
         post.setCreated(Timestamp.now());
+
+        controller = Controller.getInstance();
         post.setUser_name("Albert Einstein");
         post.setText("Today was a good day");
         List<Post> postList = new ArrayList<>();
@@ -52,7 +54,6 @@ public class UserFeedFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        controller = Controller.getInstance();
         loadPosts();
         return view;
     }

@@ -1,6 +1,8 @@
 package com.friendlines.view.homefragments;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -66,7 +68,33 @@ public class ProfileFragment extends Fragment implements UserEventListener {
         */
         nameTextView = getActivity().findViewById(R.id.profile_user_fullname);
         profileImage = getActivity().findViewById(R.id.image);
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImageoptions();
+            }
+        });
         return view;
+    }
+
+    private void showImageoptions() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("What do you want to do")
+                .setCancelable(true)
+                .setPositiveButton("Change image", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //delete in firebase
+                    }
+                })
+                .setNegativeButton("view Image", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
