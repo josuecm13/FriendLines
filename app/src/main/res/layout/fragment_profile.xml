@@ -66,6 +66,7 @@
 
                 <Button
                     style="@style/ProfileBubble"
+                    android:id="@+id/information_btn"
                     android:layout_marginStart="50dp"
                     android:text="Information"/>
 

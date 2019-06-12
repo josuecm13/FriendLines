@@ -24,6 +24,7 @@ import com.friendlines.controller.listeners.TaskListener;
 import com.friendlines.model.User;
 import com.friendlines.model.post.Post;
 import com.friendlines.view.SplashActivity;
+import com.friendlines.view.profile.EditProfileActivity;
 import com.friendlines.view.profile.EducationActivity;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -46,7 +47,7 @@ public class ProfileFragment extends Fragment{
     TextView nameTextView;
     CircularImageView profileImage;
     View options;
-    Button education;
+    Button education, information;
 
     public ProfileFragment() {
         adapter = new PostsAdapter(new ArrayList<Post>(),getContext());
@@ -107,6 +108,15 @@ public class ProfileFragment extends Fragment{
                 startActivity(new Intent(getContext(), EducationActivity.class));
             }
         });
+
+        information = view.findViewById(R.id.information_btn);
+        information.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), EditProfileActivity.class));
+            }
+        });
+
         recyclerView = view.findViewById(R.id.timeline_container);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
