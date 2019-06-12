@@ -127,11 +127,11 @@ public class ProfileFragment extends Fragment{
 
         return view;*//*
     }*/
-
+/*
     @Override
     public void onResume() {
         super.onResume();
         User user  = Controller.getInstance().getDto().getUser();
         nameTextView.setText(user.getFirstname() + " " + user.getLastname());
-    }
+    }*/
 }

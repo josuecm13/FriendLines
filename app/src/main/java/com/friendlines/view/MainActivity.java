@@ -12,9 +12,11 @@ import com.friendlines.R;
 import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
 import com.friendlines.controller.listeners.FriendshipEventListener;
+import com.friendlines.controller.listeners.PostEventListener;
 import com.friendlines.controller.listeners.UserEventListener;
 import com.friendlines.model.Friendship;
 import com.friendlines.model.User;
+import com.friendlines.model.post.Post;
 import com.friendlines.view.homefragments.FriendsFragment;
 import com.friendlines.view.homefragments.NotificationsFragment;
 import com.friendlines.view.homefragments.ProfileFragment;
@@ -40,7 +42,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         controller = Controller.getInstance();
-        loadFriendships();
         userFeedFragment = new UserFeedFragment();
         friendsFragment = new FriendsFragment();
         profileFragment = new ProfileFragment();
@@ -88,6 +89,9 @@ public class MainActivity extends AppCompatActivity
 
         }
         controller.getDto().setUser(user);
+        controller.getDto().getPosts().clear();
+        controller.getDto().getFriendships().clear();
+        loadFriendships();
     }
 
     private void userWasDeleted(){
@@ -102,21 +106,65 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onFriendshipAdded(Friendship friendship) {
                     controller.getDto().getFriendships().add(friendship);
-                    Log.e("Friend", "New friend");
+                    loadPosts(friendship);
+                    Log.e("Friend", "New friend: "  + friendship.getReceiver_name());
                 }
 
                 @Override
                 public void onFriendshipAccepted(Friendship friendship) {
                     controller.getDto().getFriendships().set(controller.getDto().getFriendships().indexOf(friendship), friendship);
-                    Log.e("Friend", "Accepted friend");
+                    Log.e("Friend", "Accepted friend: " + friendship.getReceiver_name());
                 }
 
                 @Override
                 public void onFriendshipRejected(Friendship friendship) {
                     controller.getDto().getFriendships().remove(friendship);
-                    Log.e("Friend", "Rejected friend");
+                    Log.e("Friend", "Rejected friend: " + friendship.getReceiver_name());
                 }
             });
+        }
+        catch (ControlException e)
+        {
+            Log.e("Error", e.getMessage());
+        }
+    }
+
+    private void loadPosts(Friendship friendship)
+    {
+        try
+        {
+            if(friendship.getStatus().equals(Friendship.ACCEPTED_STATUS))
+            {
+                controller.listenPost(this, friendship.getReceiver_id(), new PostEventListener() {
+                    @Override
+                    public void onPostAdded(Post post)
+                    {
+                        controller.getDto().getPosts().add(post);
+                        userFeedFragment.adapter.notifyDataSetChanged();
+                        Log.e("Post", "New post");
+                    }
+
+                    @Override
+                    public void onPostChanged(Post post)
+                    {
+                        controller.getDto().getPosts().set(controller.getDto().getPosts().indexOf(post), post);
+                        userFeedFragment.adapter.notifyDataSetChanged();
+                        Log.e("Post", "Changed post");
+                    }
+
+                    @Override
+                    public void onPostDeleted(Post post)
+                    {
+                        controller.getDto().getPosts().remove(post);
+                        userFeedFragment.adapter.notifyDataSetChanged();
+                        Log.e("Post", "Deleted post");
+                    }
+                });
+            }
+            else
+            {
+                Log.e("Friendship", "Not accepted: " + friendship.getReceiver_name());
+            }
         }
         catch (ControlException e)
         {

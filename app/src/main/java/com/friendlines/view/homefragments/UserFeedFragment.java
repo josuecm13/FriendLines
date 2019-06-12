@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class UserFeedFragment extends Fragment {
 
-    PostsAdapter adapter;
+    public PostsAdapter adapter;
     RecyclerView recyclerView;
     Controller controller;
 
@@ -55,49 +55,6 @@ public class UserFeedFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        loadPosts();
         return view;
-    }
-
-    private void loadPosts()
-    {
-        try
-        {
-            for(Friendship friendship : controller.getDto().getFriendships())
-            {
-                if(friendship.getStatus().equals(Friendship.ACCEPTED_STATUS))
-                {
-                    controller.listenPost(getActivity(), friendship.getId(), new PostEventListener() {
-                        @Override
-                        public void onPostAdded(Post post)
-                        {
-                            controller.getDto().getPosts().add(post);
-                            adapter.notifyDataSetChanged();
-                            Log.e("Post", "New post");
-                        }
-
-                        @Override
-                        public void onPostChanged(Post post)
-                        {
-                            controller.getDto().getPosts().set(controller.getDto().getPosts().indexOf(post), post);
-                            adapter.notifyDataSetChanged();
-                            Log.e("Post", "Changed post");
-                        }
-
-                        @Override
-                        public void onPostDeleted(Post post)
-                        {
-                            controller.getDto().getPosts().remove(post);
-                            adapter.notifyDataSetChanged();
-                            Log.e("Post", "Deleted post");
-                        }
-                    });
-                }
-            }
-        }
-        catch (ControlException e)
-        {
-            Log.e("Error", e.getMessage());
-        }
     }
 }
