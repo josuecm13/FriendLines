@@ -26,6 +26,7 @@ import com.friendlines.controller.adapters.RequestsAdapter;
 import com.friendlines.controller.listeners.UserEventListener;
 import com.friendlines.model.User;
 import com.friendlines.model.post.Post;
+import com.friendlines.view.SplashActivity;
 import com.friendlines.view.profile.EducationActivity;
 import com.google.firebase.Timestamp;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -44,6 +45,7 @@ public class ProfileFragment extends Fragment{
     public PostsAdapter adapter;
     TextView nameTextView;
     CircularImageView profileImage;
+    View options;
     Button education;
 
     public ProfileFragment() {
@@ -61,7 +63,39 @@ public class ProfileFragment extends Fragment{
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showImageoptions();
+                showImageoptions("What do you want to do?",
+        "Change Image", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                },
+        "View Image", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+            }
+        });
+        options = view.findViewById(R.id.options);
+        options.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                showImageoptions("Would you like to sign out?",
+                        "Sign Out", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Controller.getInstance().signOut();
+                                getActivity().finishAffinity();
+                                startActivity(new Intent(getActivity().getApplicationContext(), SplashActivity.class));
+                            }
+                        }, "Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
             }
         });
 
@@ -87,7 +121,6 @@ public class ProfileFragment extends Fragment{
         return view;
     }
 
-
     public void addFlilteredPost(Post post){
         if(post.getUser_id().equals(Controller.getInstance().getDto().getUser().getId()))
         adapter.addPost(post);
@@ -112,21 +145,14 @@ public class ProfileFragment extends Fragment{
     }
 
     private void showImageoptions() {
+    private void showImageoptions(String question,
+                                  String positiveString, DialogInterface.OnClickListener positiveListener,
+                                  String negativeString, DialogInterface.OnClickListener negativeListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("What do you want to do")
+        builder.setMessage(question)
                 .setCancelable(true)
-                .setPositiveButton("Change image", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //delete in firebase
-                    }
-                })
-                .setNegativeButton("view Image", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //dialog.cancel();
-                    }
-                });
+                .setPositiveButton(positiveString, positiveListener)
+                .setNegativeButton(negativeString, negativeListener);
         AlertDialog dialog = builder.create();
         dialog.show();
     }

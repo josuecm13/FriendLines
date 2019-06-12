@@ -39,7 +39,7 @@ public class RequestsAdapter  extends RecyclerView.Adapter<RequestsAdapter.Holde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Holder holder, int i) {
+    public void onBindViewHolder(@NonNull final Holder holder, int i) {
         final Friendship f = friendshipList.get(i);
         holder.name.setText(f.getSender_name());
         Picasso.with(context).load(f.getSender_image()).into(holder.image);
@@ -56,6 +56,8 @@ public class RequestsAdapter  extends RecyclerView.Adapter<RequestsAdapter.Holde
                 try
                 {
                     Controller.getInstance().acceptFriendship(f.getId());
+                    friendshipList.remove(holder.getAdapterPosition());
+                    notifyDataSetChanged();
                 }
                 catch (ControlException e)
                 {
@@ -69,6 +71,8 @@ public class RequestsAdapter  extends RecyclerView.Adapter<RequestsAdapter.Holde
                 try
                 {
                     Controller.getInstance().rejectFriendship(f.getId());
+                    friendshipList.remove(holder.getAdapterPosition());
+                    notifyDataSetChanged();
                 }
                 catch (ControlException e)
                 {
