@@ -5,12 +5,15 @@ import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.friendlines.R;
 import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
 import com.friendlines.controller.listeners.TaskListener;
+import com.friendlines.model.Friendship;
+import com.google.firebase.Timestamp;
 
 public class SplashActivity extends AppCompatActivity {
 

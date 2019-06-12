@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         controller = Controller.getInstance();
+        loadFriendships();
         userFeedFragment = new UserFeedFragment();
         friendsFragment = new FriendsFragment();
         profileFragment = new ProfileFragment();
@@ -101,16 +102,19 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onFriendshipAdded(Friendship friendship) {
                     controller.getDto().getFriendships().add(friendship);
+                    Log.e("Friend", "New friend");
                 }
 
                 @Override
                 public void onFriendshipAccepted(Friendship friendship) {
                     controller.getDto().getFriendships().set(controller.getDto().getFriendships().indexOf(friendship), friendship);
+                    Log.e("Friend", "Accepted friend");
                 }
 
                 @Override
                 public void onFriendshipRejected(Friendship friendship) {
                     controller.getDto().getFriendships().remove(friendship);
+                    Log.e("Friend", "Rejected friend");
                 }
             });
         }

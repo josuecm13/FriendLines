@@ -73,6 +73,7 @@ public class UserFeedFragment extends Fragment {
                         {
                             controller.getDto().getPosts().add(post);
                             adapter.notifyDataSetChanged();
+                            Log.e("Post", "New post");
                         }
 
                         @Override
@@ -80,6 +81,7 @@ public class UserFeedFragment extends Fragment {
                         {
                             controller.getDto().getPosts().set(controller.getDto().getPosts().indexOf(post), post);
                             adapter.notifyDataSetChanged();
+                            Log.e("Post", "Changed post");
                         }
 
                         @Override
@@ -87,6 +89,7 @@ public class UserFeedFragment extends Fragment {
                         {
                             controller.getDto().getPosts().remove(post);
                             adapter.notifyDataSetChanged();
+                            Log.e("Post", "Deleted post");
                         }
                     });
                 }
