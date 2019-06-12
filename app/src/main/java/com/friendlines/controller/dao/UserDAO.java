@@ -117,15 +117,15 @@ public class UserDAO
         }
     }
 
-    private String getPrefixSuccessor(String string) {
+    private static String getPrefixSuccessor(String string) {
         if (string.equals(""))
             return string;
         else {
             int last = string.charAt(string.length() - 1);
             if (string.length() == 1)
-                return String.valueOf((char)last+1);
+                return String.valueOf((char)(last+1));
             else
-                return string.substring(0, string.length() - 2) + ((char)last+1);
+                return string.substring(0, string.length() - 1) + ((char)(last+1));
         }
     }
 
@@ -137,6 +137,9 @@ public class UserDAO
             throw new ControlException("Invalid field parameter in UserDAO's listen method: "+field);
         else {
             final String successor = getPrefixSuccessor(prefix);
+            Log.d(Controller.TAG, "query field: " + field);
+            Log.d(Controller.TAG, "query prefix: " + prefix);
+            Log.d(Controller.TAG, "query successor: " + successor);
             FirebaseFirestore.getInstance()
                     .collection(COLLECTION_NAME)
                     .whereGreaterThanOrEqualTo(field, prefix)

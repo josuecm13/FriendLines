@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.friendlines.R;
+import com.friendlines.controller.Controller;
 import com.friendlines.controller.adapters.RequestsAdapter;
 import com.friendlines.model.Friendship;
 
@@ -37,12 +38,7 @@ public class NotificationsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        Friendship item = new Friendship();
-        item.setSender_name("Pepito Pérez Rodriguez");
-        List<Friendship> requests = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            requests.add(item);
-        }
+        List<Friendship> requests = filterFriendRequest(Controller.getInstance().getDto().getFriendships());
         adapter = new RequestsAdapter(requests,getContext());
         recyclerView.setAdapter(adapter);
 
@@ -50,6 +46,19 @@ public class NotificationsFragment extends Fragment {
 
 
 
+    }
+
+    private List<Friendship> filterFriendRequest(List<Friendship> friendships)
+    {
+        List<Friendship> requests = new ArrayList<>();
+        for(Friendship friendship : friendships)
+        {
+            if(friendship.getStatus().equals(Friendship.PENDING_STATUS) && friendship.getReceiver_id().equals(Controller.getInstance().getDto().getUser().getId()))
+            {
+                requests.add(friendship);
+            }
+        }
+        return requests;
     }
 
 }
