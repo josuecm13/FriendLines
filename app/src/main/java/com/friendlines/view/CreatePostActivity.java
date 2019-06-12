@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.friendlines.model.post.Post;
 import com.friendlines.model.post.VideoPost;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -136,7 +138,7 @@ public class CreatePostActivity extends AppCompatActivity {
             }
             else
             {
-                controller.getDto().getPost().setUser_image(youtubeLink);
+                ((VideoPost)controller.getDto().getPost()).setVideo(youtubeLink);
                 controller.getDto().getPost().setType("VIDEO");
                 controller.addPost();
                 Toast.makeText(getApplicationContext(), "Post created",Toast.LENGTH_SHORT).show();
@@ -145,44 +147,37 @@ public class CreatePostActivity extends AppCompatActivity {
         }
         else
         {
-            try
-            {
-                String imageName = "posts/" + controller.getDto().getUser().getId()+Calendar.getInstance().getTime().toString();
-                final StorageReference ref = FirebaseStorage.getInstance().getReference().child(imageName);
-                ref.putStream(new FileInputStream(new File(imageUri.getPath())))
-                .continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@Nonnull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful()) {
-                            throw task.getException();
-                        }
+            String imageName = "posts/" + controller.getDto().getUser().getId()+Calendar.getInstance().getTime().toString()+".jpg";
+            final StorageReference ref = FirebaseStorage.getInstance().getReference().child(imageName);
+            ref.putFile(imageUri)
+                    .continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                        @Override
+                        public Task<Uri> then(@Nonnull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                            if (!task.isSuccessful()) {
+                                throw task.getException();
+                            }
 
-                        // Continue with the task to get the download URL
-                        return ref.getDownloadUrl();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@Nonnull Task<Uri> task) {
-                        if (task.isSuccessful())
-                        {
-                            Uri downloadUri = task.getResult();
-                            controller.getDto().getPost().setUser_image(downloadUri.toString());
-                            controller.getDto().getPost().setType("IMAGE");
-                            controller.addPost();
-                            Toast.makeText(getApplicationContext(), "Post created",Toast.LENGTH_SHORT).show();
-                            finish();
+                            // Continue with the task to get the download URL
+                            return ref.getDownloadUrl();
                         }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(), "Error while uploading the file",Toast.LENGTH_SHORT).show();
-                        }
+                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@Nonnull Task<Uri> task) {
+                    if (task.isSuccessful())
+                    {
+                        Uri downloadUri = task.getResult();
+                        ((ImagePost)controller.getDto().getPost()).setImage(downloadUri.toString());
+                        controller.getDto().getPost().setType("IMAGE");
+                        controller.addPost();
+                        Toast.makeText(getApplicationContext(), "Post created",Toast.LENGTH_SHORT).show();
+                        finish();
                     }
-                });
-            }
-            catch (FileNotFoundException e)
-            {
-                Log.e("Error", e.getMessage());
-            }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "Error while uploading the file",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 

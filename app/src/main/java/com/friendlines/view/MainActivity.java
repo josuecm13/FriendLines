@@ -121,6 +121,8 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onFriendshipRejected(Friendship friendship) {
                     controller.getDto().getFriendships().remove(friendship);
+                    controller.getDto().getPosts().clear();
+                    loadPosts();
                     Log.e("Friend", "Rejected friend: " + friendship.getReceiver_name());
                 }
             });

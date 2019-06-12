@@ -1,6 +1,7 @@
 package com.friendlines.controller;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -18,11 +19,15 @@ import com.friendlines.controller.listeners.TaskListener;
 import com.friendlines.controller.listeners.UserEventListener;
 import com.friendlines.model.User;
 import com.friendlines.model.post.Post;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import javax.annotation.Nonnull;
 
@@ -112,6 +117,33 @@ public class Controller
 
     public boolean singedIn(){
         return auth.getCurrentUser() != null;
+    }
+
+    public void uploadImage(Activity activity, String folder, Uri imageUri, final TaskListener<String> listener){
+        final StorageReference reference = FirebaseStorage.getInstance().getReference().child(folder + "/" + Timestamp.now() + " " + imageUri.getLastPathSegment());
+        reference.putFile(imageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    Log.d(TAG, "addImage then: " + task.getException().getMessage());
+                    ControlException ex = new ControlException("Error while uplading the image.");
+                    listener.onFailure(ex);
+                    throw ex;
+                } else
+                    return reference.getDownloadUrl();
+            }
+        }).addOnCompleteListener(activity, new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    listener.onSuccess(downloadUri.toString());
+                } else {
+                    Log.d(TAG, "addImage onComplete: " + task.getException().getMessage());
+                    listener.onFailure(new ControlException("Error while uploading the image."));
+                }
+            }
+        });
     }
 
     //user

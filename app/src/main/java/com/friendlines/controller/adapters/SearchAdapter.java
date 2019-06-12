@@ -11,9 +11,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.friendlines.R;
+import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
 import com.friendlines.model.Friendship;
 import com.friendlines.model.User;
+import com.google.firebase.Timestamp;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -54,7 +56,24 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder>{
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Send Request
+                try
+                {
+                    Friendship friendship = new Friendship();
+                    friendship.setCreated(Timestamp.now());
+                    friendship.setReceiver_id(user.getId());
+                    friendship.setReceiver_image(user.getImage());
+                    friendship.setReceiver_name(user.getFirstname() + " " + user.getLastname());
+                    friendship.setSender_id(Controller.getInstance().getDto().getUser().getId());
+                    friendship.setSender_name(Controller.getInstance().getDto().getUser().getFirstname() + " " + Controller.getInstance().getDto().getUser().getLastname());
+                    friendship.setSender_image(Controller.getInstance().getDto().getUser().getImage());
+                    friendship.setStatus(Friendship.PENDING_STATUS);
+                    Controller.getInstance().getDto().setFriendship(friendship);
+                    Controller.getInstance().addFriendship();
+                }
+                catch (ControlException e)
+                {
+                    Log.e("Error", e.getMessage());
+                }
             }
         });
         List<Friendship> friends = Controller.getInstance().getDto().getFriendships();
