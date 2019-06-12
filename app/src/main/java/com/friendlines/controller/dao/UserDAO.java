@@ -8,7 +8,9 @@ import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
 import com.friendlines.controller.listeners.TaskListener;
 import com.friendlines.controller.listeners.UserEventListener;
+import com.friendlines.model.Friendship;
 import com.friendlines.model.User;
+import com.friendlines.model.post.Post;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +37,58 @@ public class UserDAO
         FirebaseFirestore.getInstance().collection(COLLECTION_NAME).add(user);
     }
 
+    private void updateUserImages(String user_id, final String user_image){
+        //updating post user images
+        FirebaseFirestore.getInstance()
+                .collection(PostDAO.COLLECTION_NAME)
+                .whereEqualTo("user_id", user_id)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(!task.isSuccessful())
+                    Log.d(Controller.TAG, "UserDAO updateUserImages posts onComplete: " + task.getException().getMessage());
+                else{
+                    PostDAO dao = new PostDAO();
+                    for (DocumentChange change : task.getResult().getDocumentChanges()) {
+                        try {
+                            Post post = change.getDocument().toObject(Post.class);
+                            post.setId(change.getDocument().getId());
+                            post.setUser_image(user_image);
+                            dao.update(post);
+                        } catch(ControlException ex){
+                            Log.d(Controller.TAG, "UserDAO updateUserImages posts onComplete: " + ex.getMessage());
+                        }
+                    }
+                }
+            }
+        });
+
+        //updating comment images
+        FirebaseFirestore.getInstance()
+                .collectionGroup(CommentDAO.COLLECTION_NAME)
+                .whereEqualTo("user_id", user_id)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(!task.isSuccessful())
+                    Log.d(Controller.TAG, "UserDAO updateUserImages comments onComplete: " + task.getException().getMessage());
+                else{
+                    PostDAO dao = new PostDAO();
+                    for (DocumentChange change : task.getResult().getDocumentChanges()) {
+                        try {
+                            Post post = change.getDocument().toObject(Post.class);
+                            post.setId(change.getDocument().getId());
+                            post.setUser_image(user_image);
+                            dao.update(post);
+                        } catch(ControlException ex){
+                            Log.d(Controller.TAG, "UserDAO updateUserImages comments onComplete: " + ex.getMessage());
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     public void updateUser(User user) throws ControlException {
         if (user.getId() == null)
             throw new ControlException("A user document ID must be provided to update a user.");
@@ -50,6 +104,7 @@ public class UserDAO
             map.put("city", user.getCity());
             map.put("country", user.getCountry());
             FirebaseFirestore.getInstance().collection(COLLECTION_NAME).document(user.getId()).update(map);
+            updateUserImages(user.getId(), user.getImage());
         }
     }
 

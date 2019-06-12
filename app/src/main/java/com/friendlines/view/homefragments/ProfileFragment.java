@@ -126,7 +126,6 @@ public class ProfileFragment extends Fragment{
                     try {
                         Controller.getInstance().getDto().getUser().setImage(imageURL);
                         Controller.getInstance().updateUser();
-                        Picasso.with(getContext()).load(imageUri).into(profileImage);
                     } catch(ControlException ex){
                         Toast.makeText(ProfileFragment.this.getContext(), ex.getMessage(), Toast.LENGTH_LONG);
                     }
@@ -175,40 +174,11 @@ public class ProfileFragment extends Fragment{
         }
     }
 
-    /*@Override
-    public void onUserChanged(User user) {
-        Log.d(Controller.TAG, user.getAuth_id());
-        Log.d(Controller.TAG, user.getFirstname());
-        Log.d(Controller.TAG, user.getLastname());
-        //nameTextView.setText(user.getFirstname()+ " " + user.getLastname());
-        //Picasso.with(getContext()).load(user.getImage()).into(profileImage);
-        
-
-        *//*nameTextView = view.findViewById(R.id.fullname);
-        profileImage = view.findViewById(R.id.image);
-
-
-
-        User user  = Controller.getInstance().getDto().getUser();
-        if(user.getImage() != null)
-            Picasso.with(getContext()).load(user.getImage()).into(profileImage);
-
-        View educationButton = view.findViewById(R.id.education_btn);
-
-        educationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), EducationActivity.class));
-            }
-        });
-
-        return view;*//*
-    }*/
-
     @Override
     public void onResume() {
         super.onResume();
         User user  = Controller.getInstance().getDto().getUser();
         nameTextView.setText(user.getFirstname() + " " + user.getLastname());
+        Picasso.with(getContext()).load(user.getImage()).into(profileImage);
     }
 }

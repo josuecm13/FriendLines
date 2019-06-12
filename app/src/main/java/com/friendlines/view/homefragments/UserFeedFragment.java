@@ -18,9 +18,12 @@ import com.friendlines.controller.Controller;
 import com.friendlines.controller.adapters.PostsAdapter;
 import com.friendlines.controller.listeners.PostEventListener;
 import com.friendlines.model.Friendship;
+import com.friendlines.model.User;
 import com.friendlines.model.post.Post;
 import com.friendlines.view.CreatePostActivity;
 import com.google.firebase.Timestamp;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,7 @@ public class UserFeedFragment extends Fragment {
     public PostsAdapter adapter;
     RecyclerView recyclerView;
     Controller controller;
+    View view;
 
     public UserFeedFragment() {
         // Required empty public constructor
@@ -42,7 +46,7 @@ public class UserFeedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user_feed, container, false);
+        view = inflater.inflate(R.layout.fragment_user_feed, container, false);
         controller = Controller.getInstance();
         Button btnCreatePost = view.findViewById(R.id.btn_create_post);
         btnCreatePost.setOnClickListener(new View.OnClickListener() {
@@ -56,5 +60,14 @@ public class UserFeedFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String imageURL  = Controller.getInstance().getDto().getUser().getImage();
+        Log.d(Controller.TAG, "onResume: " + imageURL);
+        CircularImageView image = view.findViewById(R.id.institution_editText).findViewById(R.id.image);
+        Picasso.with(getContext()).load(imageURL).into(image);
     }
 }

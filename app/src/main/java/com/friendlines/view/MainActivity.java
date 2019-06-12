@@ -22,6 +22,7 @@ import com.friendlines.view.homefragments.NotificationsFragment;
 import com.friendlines.view.homefragments.ProfileFragment;
 import com.friendlines.view.homefragments.SearchFragment;
 import com.friendlines.view.homefragments.UserFeedFragment;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -33,7 +34,6 @@ public class MainActivity extends AppCompatActivity
     private ProfileFragment profileFragment;
     private NotificationsFragment notificationsFragment;
     private SearchFragment searchFragment;
-    private boolean firstTime;
     private Controller controller;
 
     @Override
@@ -82,12 +82,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void gotUserData(User user){
-        if(firstTime){
-            firstTime = false;
-            //ejecutar todo lo necesario durante la primera carga del usuario
-            //como crear otros listeners por ejemplo
-
-        }
         controller.getDto().setUser(user);
         controller.getDto().getPosts().clear();
         controller.getDto().getFriendships().clear();
