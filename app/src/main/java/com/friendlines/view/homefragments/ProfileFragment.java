@@ -191,4 +191,10 @@ public class ProfileFragment extends Fragment{
         nameTextView.setText(user.getFirstname() + " " + user.getLastname());
         Picasso.with(getContext()).load(user.getImage()).into(profileImage);
     }
+
+
+    public void updateUserData(User user) {
+        nameTextView.setText(user.getFirstname() + " " + user.getLastname());
+        Picasso.with(getContext()).load(user.getImage()).into(profileImage);
+    }
 }

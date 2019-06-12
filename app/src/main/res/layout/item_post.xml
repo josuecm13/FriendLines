@@ -80,11 +80,15 @@
                 android:text="Lorem Ipsum"
                 android:maxHeight="200dp"/>
 
-            <FrameLayout
-                android:id="@+id/container"
+            <ImageView
+                android:id="@+id/image_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxHeight="300dp"
                 android:layout_marginBottom="40dp"/>
+
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"

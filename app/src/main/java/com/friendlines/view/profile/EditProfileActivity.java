@@ -40,7 +40,7 @@ public class EditProfileActivity extends AppCompatActivity
         gender = findViewById(R.id.gender_edit_text);
         birth = findViewById(R.id.bday_edit_text);
         email.setText(user.getEmail());
-        number.setText(user.getPhone());
+        //number.setText(user.getPhone());
         firstName.setText(user.getFirstname());
         lastName.setText(user.getLastname());
         city.setText(user.getCity());
@@ -53,7 +53,7 @@ public class EditProfileActivity extends AppCompatActivity
         String fName = firstName.getText().toString();
         String lName = lastName.getText().toString();
         String mailText = email.getText().toString();
-        //Date birthday = birth.getText().toString();
+        //Date birthday = new Date();//birth.getText().toString();
         int phone = Integer.parseInt(number.getText().toString());
         String city_ = city.getText().toString();
 

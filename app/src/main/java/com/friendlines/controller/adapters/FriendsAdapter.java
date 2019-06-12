@@ -57,7 +57,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.Holder>{
                 //TODO: activity del perfil
             }
         });
-        holder.mutualFriends.setText("12 mutual friends");
+        holder.mutualFriends.setText("2 mutual friends");
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

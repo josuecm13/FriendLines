@@ -20,10 +20,13 @@ import com.friendlines.ProfileActivity;
 import com.friendlines.R;
 import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
+import com.friendlines.model.post.ImagePost;
 import com.friendlines.model.post.Post;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHolder>{
@@ -46,23 +49,23 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostViewHolder postViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final PostViewHolder postViewHolder, int i) {
         final Post post = postList.get(i);
         postViewHolder.name.setText(post.getUser_name());
         Picasso.with(context).load(post.getUser_image()).into(postViewHolder.image);
         postViewHolder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: crear activity de peril
-                Bundle bundle = new Bundle();
-                bundle.putString("fragment", "profile");
-                bundle.putInt("layout_id",R.layout.fragment_profile);
-                Intent intent = new Intent(context, ProfileActivity.class).putExtras(bundle);
+                Intent intent = new Intent(context, ProfileActivity.class);
+                Controller.getInstance().getDto().getSelectedUser().setId(post.getUser_id());
                 context.startActivity(intent);
             }
         });
         //TODO: procesa
-        postViewHolder.date.setText("5 minutes ago.");
+        Date date = post.getCreated().toDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String dateString = sdf.format(date);
+        postViewHolder.date.setText(dateString);
         if(!post.getUser_id().equals(Controller.getInstance().getDto().getUser().getId()))
         {
             postViewHolder.options.setVisibility(View.INVISIBLE);
@@ -107,6 +110,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
                 try
                 {
                     Controller.getInstance().addLike(post.getId());
+                    postViewHolder.dislike.setImageResource(R.drawable.dislike);
+                    postViewHolder.like.setImageResource(R.drawable.marked_like);
                 }
                 catch (ControlException e)
                 {
@@ -117,7 +122,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
         postViewHolder.dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //dislike post logic
+                postViewHolder.dislike.setImageResource(R.drawable.marked_dislike);
+                postViewHolder.like.setImageResource(R.drawable.like);
             }
         });
         postViewHolder.comments.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +135,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
             }
         });
         //TODO: set media content
+        if(post.getType().equals("IMAGE") && post instanceof ImagePost){
+            Picasso.with(context).load(((ImagePost) post).getImage()).into(postViewHolder.mediaContentContainer);
+        }
     }
 
     @Override
@@ -140,7 +149,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
 
         CircularImageView image;
         TextView name, date, description;
-        FrameLayout mediaContentContainer;
+        ImageView mediaContentContainer;
         ImageView options, like, comments, dislike;
         View instance;
 
@@ -152,7 +161,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
             date = instance.findViewById(R.id.date);
             description = instance.findViewById(R.id.content);
             options = instance.findViewById(R.id.options);
-            mediaContentContainer = instance.findViewById(R.id.container);
+            mediaContentContainer = instance.findViewById(R.id.image_container);
             like = instance.findViewById(R.id.like);
             comments = instance.findViewById(R.id.comments);
             dislike = instance.findViewById(R.id.dislike);

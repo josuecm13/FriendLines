@@ -125,7 +125,7 @@ public class Controller
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                 if (!task.isSuccessful()) {
-                    Log.d(TAG, "addImage then: " + task.getException().getMessage());
+                    Log.d(TAG, "add_image then: " + task.getException().getMessage());
                     ControlException ex = new ControlException("Error while uplading the image.");
                     listener.onFailure(ex);
                     throw ex;
@@ -139,7 +139,7 @@ public class Controller
                     Uri downloadUri = task.getResult();
                     listener.onSuccess(downloadUri.toString());
                 } else {
-                    Log.d(TAG, "addImage onComplete: " + task.getException().getMessage());
+                    Log.d(TAG, "add_image onComplete: " + task.getException().getMessage());
                     listener.onFailure(new ControlException("Error while uploading the image."));
                 }
             }

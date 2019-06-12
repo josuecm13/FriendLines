@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.friendlines.controller.Controller;
+import com.friendlines.controller.listeners.UserEventListener;
+import com.friendlines.model.User;
 import com.friendlines.view.homefragments.ProfileFragment;
 
 public class ProfileActivity extends AppCompatActivity {
 
     int layout_id;
-    Fragment fragment;
+    ProfileFragment fragment;
     FrameLayout frameLayout;
 
 
@@ -23,19 +26,27 @@ public class ProfileActivity extends AppCompatActivity {
         frameLayout = findViewById(R.id.container);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        fragment = new ProfileFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.image_container, fragment);
+        transaction.commit();
+        try{
+            Controller.getInstance().listenUser(this, Controller.getInstance().getDto().getSelectedUser().getId(), new UserEventListener() {
 
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null){
-            layout_id = bundle.getInt("layout_id");
-            String fragmentName = bundle.getString("fragment");
-            assert fragmentName != null;
-            if(fragmentName.equals("profile")){
-                fragment = new ProfileFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.add(layout_id, fragment);
-                transaction.commit();
-            }
-        }
+                @Override
+                public void onUserChanged(User user) {
+                    //fragment
+                    setData(user);
+                }
+
+                @Override
+                public void onUserDeleted(User user) {
+                    userWasDeleted();
+                }
+            });
+        }catch (Exception e){}
+
+
         /*
         fragment = new ProfileFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -43,6 +54,13 @@ public class ProfileActivity extends AppCompatActivity {
         transaction.commit();
         */
 
+    }
+
+    private void userWasDeleted() {
+    }
+
+    private void setData(User user) {
+        fragment.updateUserData(user);
     }
 
     //Extracted from https://stackoverflow.com/questions/22947713/make-the-up-button-behave-like-the-back-button-on-android

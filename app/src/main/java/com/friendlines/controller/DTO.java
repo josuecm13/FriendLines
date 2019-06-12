@@ -11,6 +11,7 @@ import java.util.List;
 public class DTO
 {
     private User user;
+    private User selectedUser;
     private Education education;
     private Friendship friendship;
     private Post post;
@@ -76,5 +77,15 @@ public class DTO
 
     public void setComment(Post comment) {
         this.comment = comment;
+    }
+
+    public User getSelectedUser() {
+        if(selectedUser == null)
+            selectedUser = new User();
+        return selectedUser;
+    }
+
+    public void setSelectedUser(User selectedUser) {
+        this.selectedUser = selectedUser;
     }
 }
