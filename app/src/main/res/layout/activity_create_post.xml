@@ -29,6 +29,7 @@
         android:elevation="12dp"
         android:textSize="25sp"
         style="@style/editText_style"
+        android:textColor="@color/black"
         android:hint="type something..."
         android:textColorHint="#9E9E9E"
         android:layout_marginTop="40dp" />
