@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.friendlines.R;
@@ -42,6 +43,7 @@ public class ProfileFragment extends Fragment{
     PostsAdapter adapter;
     TextView nameTextView;
     CircularImageView profileImage;
+    Button education;
 
     public ProfileFragment() {
 
@@ -52,10 +54,6 @@ public class ProfileFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        /*
-        Post post = new Post();
-        post.setCreated(Timestamp.now());
-        post.setUser_name("Albert E.");
 
         nameTextView = view.findViewById(R.id.fullname);
         profileImage = view.findViewById(R.id.image);
