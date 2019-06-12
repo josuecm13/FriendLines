@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity
         controller.getDto().getPosts().clear();
         controller.getDto().getFriendships().clear();
         loadFriendships();
+        loadPosts();
     }
 
     private void userWasDeleted(){
@@ -106,7 +107,6 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onFriendshipAdded(Friendship friendship) {
                     controller.getDto().getFriendships().add(friendship);
-                    loadPosts(friendship);
                     Log.e("Friend", "New friend: "  + friendship.getReceiver_name());
                 }
 
@@ -129,46 +129,43 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void loadPosts(Friendship friendship)
+    private void loadPosts()
     {
-        try
-        {
-            if(friendship.getStatus().equals(Friendship.ACCEPTED_STATUS))
+        controller.listenPost(this,  new PostEventListener() {
+            @Override
+            public void onPostAdded(Post post)
             {
-                controller.listenPost(this, friendship.getReceiver_id(), new PostEventListener() {
-                    @Override
-                    public void onPostAdded(Post post)
-                    {
-                        controller.getDto().getPosts().add(post);
-                        userFeedFragment.adapter.notifyDataSetChanged();
-                        Log.e("Post", "New post");
-                    }
-
-                    @Override
-                    public void onPostChanged(Post post)
-                    {
-                        controller.getDto().getPosts().set(controller.getDto().getPosts().indexOf(post), post);
-                        userFeedFragment.adapter.notifyDataSetChanged();
-                        Log.e("Post", "Changed post");
-                    }
-
-                    @Override
-                    public void onPostDeleted(Post post)
-                    {
-                        controller.getDto().getPosts().remove(post);
-                        userFeedFragment.adapter.notifyDataSetChanged();
-                        Log.e("Post", "Deleted post");
-                    }
-                });
+                filtratePost(post);
+                userFeedFragment.adapter.notifyDataSetChanged();
+                Log.e("Post", "New post");
             }
-            else
+
+            @Override
+            public void onPostChanged(Post post)
             {
-                Log.e("Friendship", "Not accepted: " + friendship.getReceiver_name());
+                controller.getDto().getPosts().set(controller.getDto().getPosts().indexOf(post), post);
+                userFeedFragment.adapter.notifyDataSetChanged();
+                Log.e("Post", "Changed post");
             }
-        }
-        catch (ControlException e)
+
+            @Override
+            public void onPostDeleted(Post post)
+            {
+                controller.getDto().getPosts().remove(post);
+                userFeedFragment.adapter.notifyDataSetChanged();
+                Log.e("Post", "Deleted post");
+            }
+        });
+    }
+
+    private void filtratePost(Post post)
+    {
+        for(Friendship friendship : controller.getDto().getFriendships())
         {
-            Log.e("Error", e.getMessage());
+            if(friendship.getReceiver_id().equals(post.getUser_id()) || friendship.getSender_id().equals(post.getUser_id()))
+            {
+                controller.getDto().getPosts().add(post);
+            }
         }
     }
 }
