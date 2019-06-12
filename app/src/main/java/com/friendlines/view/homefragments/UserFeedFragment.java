@@ -48,11 +48,11 @@ public class UserFeedFragment extends Fragment {
         for (int i = 0; i < 19; i++) {
             postList.add(post);
         }
+        controller = Controller.getInstance();
         adapter = new PostsAdapter(controller.getDto().getPosts(), getContext());
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        controller = Controller.getInstance();
         loadPosts();
         return view;
     }

@@ -5,12 +5,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.friendlines.R;
 import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
+import com.friendlines.controller.listeners.FriendshipEventListener;
 import com.friendlines.controller.listeners.UserEventListener;
+import com.friendlines.model.Friendship;
 import com.friendlines.model.User;
 import com.friendlines.view.homefragments.FriendsFragment;
 import com.friendlines.view.homefragments.NotificationsFragment;
@@ -52,7 +56,11 @@ public class MainActivity extends AppCompatActivity
         //TabLayout
         tabLayout = findViewById(R.id.tab_layout_home);
         tabLayout.setupWithViewPager(viewPager);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         try {
             Controller.getInstance().listenUser(this, new UserEventListener() {
                 @Override
@@ -75,9 +83,9 @@ public class MainActivity extends AppCompatActivity
             firstTime = false;
             //ejecutar todo lo necesario durante la primera carga del usuario
             //como crear otros listeners por ejemplo
+
         }
-        //ejecutar todo lo necesario cuando llegue cualquier modificación al objeto de User
-        profileFragment.onUserChanged(user);
+        Controller.getInstance().getDto().setUser(user);
     }
 
     private void userWasDeleted(){
