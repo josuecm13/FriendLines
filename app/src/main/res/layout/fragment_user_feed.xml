@@ -28,7 +28,7 @@
                 android:orientation="vertical">
 
                 <include
-                    android:id="@+id/create_post"
+                    android:id="@+id/institution_editText"
                     layout="@layout/layout_new_post" />
 
                 <android.support.v7.widget.RecyclerView

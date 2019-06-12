@@ -42,7 +42,8 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.Hold
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int i) {
         final Education education = list.get(i);
-        holder.textView.setText(education.getInstitution() + ": " + education.getType());
+        holder.institution.setText(education.getInstitution());
+        holder.type.setText(education.getType());
         holder.instance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,12 +80,14 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.Hold
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        TextView textView;
+        TextView institution;
+        TextView type;
         View instance;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
-            this.textView = itemView.findViewById(R.id.text);
+            this.institution = itemView.findViewById(R.id.institution);
+            this.type = itemView.findViewById(R.id.charge);
             instance = itemView;
         }
     }

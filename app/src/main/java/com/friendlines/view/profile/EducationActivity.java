@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.friendlines.R;
 import com.friendlines.controller.ControlException;
@@ -20,7 +19,7 @@ public class EducationActivity extends AppCompatActivity{
 
     RecyclerView recyclerView;
     EducationAdapter adapter;
-    EditText textView;
+    EditText institutionName, charge;
     String userId;
 
     @Override
@@ -34,7 +33,8 @@ public class EducationActivity extends AppCompatActivity{
         recyclerView.setAdapter(adapter);
 
         //CAMBIAR
-        textView = findViewById(R.id.create_post);
+        institutionName = findViewById(R.id.institution);
+        charge = findViewById(R.id.charge);
 
         try {
             userId = Controller.getInstance().getDto().getUser().getId();
@@ -61,10 +61,10 @@ public class EducationActivity extends AppCompatActivity{
     }
 
     public void addStudy(View view) {
-        String[] string = textView.getText().toString().split(" ");
-        textView.setText("");
-        String type = string[0];
-        String institution = string[1];
+        String institution = institutionName.getText().toString();
+        String type = charge.getText().toString();
+        institutionName.setText("");
+        charge.setText("");
         Education education = new Education(institution, type);
         Controller.getInstance().getDto().setEducation(education);
         try {

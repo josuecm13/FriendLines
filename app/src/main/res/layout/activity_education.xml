@@ -20,36 +20,66 @@
             style="@style/title_text"/>
 
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
 
-            <EditText
-                android:id="@+id/create_post"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:background="@drawable/round_corner"
-                android:textAllCaps="false"
-                android:layout_marginStart="10dp"
-                android:layout_centerVertical="true"
-                android:textAlignment="viewStart"
-                android:hint="Add studies..."/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/add_education"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/round_corner"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:backgroundTint="@color/colorPrimary"
-                android:src="@drawable/plus"
-                android:onClick="addStudy"
-                />
+                <EditText
+                    android:id="@+id/institution"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/round_corner"
+                    android:textAllCaps="false"
+                    android:layout_marginStart="10dp"
+                    android:layout_centerVertical="true"
+                    android:textAlignment="viewStart"
+                    android:hint="Institution Name"/>
+
+                <EditText
+                    android:id="@+id/charge"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/round_corner"
+                    android:textAllCaps="false"
+                    android:layout_marginStart="10dp"
+                    android:layout_centerVertical="true"
+                    android:textAlignment="viewStart"
+                    android:hint="Job Title/ Studies..."/>
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/add_education"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/round_corner"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:src="@drawable/plus"
+                    android:onClick="addStudy"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    />
 
             </RelativeLayout>
+
+
+
+            </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview"
