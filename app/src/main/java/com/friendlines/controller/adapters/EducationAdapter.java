@@ -5,24 +5,30 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.friendlines.R;
+import com.friendlines.controller.ControlException;
+import com.friendlines.controller.Controller;
+import com.friendlines.model.Education;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.Holder> {
 
-    public List<String> list;
+    public List<Education> list;
     Context context;
     View view;
 
 
-    public EducationAdapter(List<String> list, Context context){
-        this.list = list;
+    public EducationAdapter(Context context){
+        this.list = new ArrayList();
         this.context = context;
     }
 
@@ -35,8 +41,8 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.Hold
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int i) {
-        String title = list.get(i);
-        holder.textView.setText(title);
+        final Education education = list.get(i);
+        holder.textView.setText(education.getInstitution() + ": " + education.getType());
         holder.instance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,7 +52,12 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.Hold
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //delete in firebase
+                                try {
+                                    String uid = Controller.getInstance().getDto().getUser().getId();
+                                    Controller.getInstance().deleteEducation(uid, education.getId());
+                                } catch(ControlException ex){
+                                    Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
+                                }
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -76,5 +87,29 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.Hold
             this.textView = itemView.findViewById(R.id.text);
             instance = itemView;
         }
+    }
+
+    public void addEducation(Education education){
+        Log.d(Controller.TAG, "EducationAdapter addEducation before operation");
+        list.add(education);
+        for(Education education_ : list){
+            Log.d(Controller.TAG, education_.getInstitution());
+        }
+        notifyDataSetChanged();
+        Log.d(Controller.TAG, "EducationAdapter addEducation after operation");
+    }
+
+    public void changeEducation(Education education){
+        //ESTE INDICE SE PUEDE QUEBRAR, REVISAR
+        int i = list.indexOf(education);
+        list.remove(i);
+        list.add(i, education);
+        notifyDataSetChanged();
+    }
+
+    public void deleteEducation(Education education){
+        int i = list.indexOf(education);
+        list.remove(i);
+        notifyDataSetChanged();
     }
 }

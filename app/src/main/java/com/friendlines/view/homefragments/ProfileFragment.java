@@ -1,9 +1,9 @@
 package com.friendlines.view.homefragments;
-
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +24,7 @@ import com.friendlines.controller.adapters.RequestsAdapter;
 import com.friendlines.controller.listeners.UserEventListener;
 import com.friendlines.model.User;
 import com.friendlines.model.post.Post;
+import com.friendlines.view.profile.EducationActivity;
 import com.google.firebase.Timestamp;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -35,7 +36,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment implements UserEventListener {
+public class ProfileFragment extends Fragment{
 
     RecyclerView recyclerView;
     PostsAdapter adapter;
@@ -43,7 +44,7 @@ public class ProfileFragment extends Fragment implements UserEventListener {
     CircularImageView profileImage;
 
     public ProfileFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -51,7 +52,7 @@ public class ProfileFragment extends Fragment implements UserEventListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        /*
+
         Post post = new Post();
         post.setCreated(Timestamp.now());
         post.setUser_name("Albert E.");
@@ -104,10 +105,33 @@ public class ProfileFragment extends Fragment implements UserEventListener {
         Log.d(Controller.TAG, user.getLastname());
         //nameTextView.setText(user.getFirstname()+ " " + user.getLastname());
         //Picasso.with(getContext()).load(user.getImage()).into(profileImage);
+        
+
+        nameTextView = view.findViewById(R.id.fullname);
+        profileImage = view.findViewById(R.id.image);
+
+
+
+        User user  = Controller.getInstance().getDto().getUser();
+        if(user.getImage() != null)
+            Picasso.with(getContext()).load(user.getImage()).into(profileImage);
+
+        View educationButton = view.findViewById(R.id.education_btn);
+
+        educationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), EducationActivity.class));
+            }
+        });
+
+        return view;
     }
 
     @Override
-    public void onUserDeleted(User user) {
-        //
+    public void onResume() {
+        super.onResume();
+        User user  = Controller.getInstance().getDto().getUser();
+        nameTextView.setText(user.getFirstname() + " " + user.getLastname());
     }
 }

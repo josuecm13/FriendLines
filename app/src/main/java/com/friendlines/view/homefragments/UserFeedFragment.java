@@ -50,6 +50,7 @@ public class UserFeedFragment extends Fragment {
         for (int i = 0; i < 19; i++) {
             postList.add(post);
         }
+        controller = Controller.getInstance();
         adapter = new PostsAdapter(controller.getDto().getPosts(), getContext());
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -95,9 +96,5 @@ public class UserFeedFragment extends Fragment {
         {
             Log.e("Error", e.getMessage());
         }
-    }
-
-    private void deletePost(int i)
-    {
     }
 }

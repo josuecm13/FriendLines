@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        controller = Controller.getInstance();
         userFeedFragment = new UserFeedFragment();
         friendsFragment = new FriendsFragment();
         profileFragment = new ProfileFragment();
@@ -56,7 +57,11 @@ public class MainActivity extends AppCompatActivity
         //TabLayout
         tabLayout = findViewById(R.id.tab_layout_home);
         tabLayout.setupWithViewPager(viewPager);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         try {
             Controller.getInstance().listenUser(this, new UserEventListener() {
                 @Override
@@ -79,11 +84,9 @@ public class MainActivity extends AppCompatActivity
             firstTime = false;
             //ejecutar todo lo necesario durante la primera carga del usuario
             //como crear otros listeners por ejemplo
+
         }
-        //ejecutar todo lo necesario cuando llegue cualquier modificación al objeto de User
-        profileFragment.onUserChanged(user);
-        controller = Controller.getInstance();
-        loadFriendships();
+        controller.getDto().setUser(user);
     }
 
     private void userWasDeleted(){

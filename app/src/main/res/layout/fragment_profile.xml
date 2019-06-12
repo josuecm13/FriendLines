@@ -44,7 +44,7 @@
 
 
             <TextView
-                android:id="@+id/profile_user_fullname"
+                android:id="@+id/fullname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="28sp"
@@ -62,7 +62,7 @@
                 <Button
                     android:id="@+id/education_btn"
                     style="@style/ProfileBubble"
-                    android:text="Education"/>
+                    android:text="Education" />
 
                 <Button
                     style="@style/ProfileBubble"
