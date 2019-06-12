@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import com.friendlines.R;
@@ -40,7 +41,7 @@ import java.util.List;
 public class ProfileFragment extends Fragment{
 
     RecyclerView recyclerView;
-    PostsAdapter adapter;
+    public PostsAdapter adapter;
     TextView nameTextView;
     CircularImageView profileImage;
     Button education;
@@ -72,7 +73,42 @@ public class ProfileFragment extends Fragment{
             }
         });
 
+        List<Post> posts = new ArrayList<>();
+        List<Post> allposts = Controller.getInstance().getDto().getPosts();
+        for (Post p: allposts){
+            if(p.getUser_id() == Controller.getInstance().getDto().getUser().getAuth_id())
+                posts.add(p);
+        }
+        adapter = new PostsAdapter(posts,getContext());
+        recyclerView = view.findViewById(R.id.timeline_container);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+
         return view;
+    }
+
+
+    public void addFlilteredPost(Post post){
+        if(post.getUser_id().equals(Controller.getInstance().getDto().getUser().getId()))
+        adapter.addPost(post);
+    }
+
+    public void changeFilteredPost(Post post){
+        if(post.getUser_id().equals(Controller.getInstance().getDto().getUser().getId()))
+            adapter.changePost(post);
+    }
+
+    public void deleteFilteredPost(Post post){
+        if(post.getUser_id().equals(Controller.getInstance().getDto().getUser().getId()))
+            adapter.deletePost(post);
+    }
+
+    public void filterUserPosts(List<Post> allposts){
+        List<Post> posts = new ArrayList<>();
+        for (Post p: allposts){
+            if(p.getUser_id() == Controller.getInstance().getDto().getUser().getAuth_id())
+                posts.add(p);
+        }
     }
 
     private void showImageoptions() {

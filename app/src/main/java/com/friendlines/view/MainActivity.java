@@ -48,9 +48,9 @@ public class MainActivity extends AppCompatActivity
         notificationsFragment = new NotificationsFragment();
         searchFragment = new SearchFragment();
         fragmentPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(profileFragment, "Profile");
         ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(userFeedFragment, "User feed");
         ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(friendsFragment, "Friends");
-        ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(profileFragment, "Profile");
         ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(searchFragment, "Search");
         ((ViewPagerAdapter) fragmentPagerAdapter).addFragment(notificationsFragment, "Notifications");
         //ViewPager
@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity
             {
                 filtratePost(post);
                 userFeedFragment.adapter.notifyDataSetChanged();
+                profileFragment.addFlilteredPost(post);
                 Log.e("Post", "New post");
             }
 
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity
             {
                 controller.getDto().getPosts().set(controller.getDto().getPosts().indexOf(post), post);
                 userFeedFragment.adapter.notifyDataSetChanged();
+                profileFragment.changeFilteredPost(post);
                 Log.e("Post", "Changed post");
             }
 
@@ -153,6 +155,7 @@ public class MainActivity extends AppCompatActivity
             {
                 controller.getDto().getPosts().remove(post);
                 userFeedFragment.adapter.notifyDataSetChanged();
+                profileFragment.deleteFilteredPost(post);
                 Log.e("Post", "Deleted post");
             }
         });
