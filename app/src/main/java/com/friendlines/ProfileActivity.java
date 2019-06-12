@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.friendlines.view.homefragments.ProfileFragment;
@@ -44,7 +45,17 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    //Extracted from https://stackoverflow.com/questions/22947713/make-the-up-button-behave-like-the-back-button-on-android
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
 
+        return(super.onOptionsItemSelected(item));
+    }
 
 
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ public class CommentSection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_section);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         post_id = getIntent().getStringExtra("POST_ID");
         commentEditText = findViewById(R.id.comment_edit_text);
         recyclerView = findViewById(R.id.recyclerview);
@@ -37,6 +39,18 @@ public class CommentSection extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(adapter);
         loadComments();
+    }
+
+    //Extracted from https://stackoverflow.com/questions/22947713/make-the-up-button-behave-like-the-back-button-on-android
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
+        return(super.onOptionsItemSelected(item));
     }
 
     public void addComment(View view) {
