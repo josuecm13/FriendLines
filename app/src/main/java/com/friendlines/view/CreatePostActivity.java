@@ -131,6 +131,7 @@ public class CreatePostActivity extends AppCompatActivity {
             {
                 controller.getDto().getPost().setType("TEXT");
                 controller.addPost();
+                Toast.makeText(getApplicationContext(), "Post created",Toast.LENGTH_SHORT).show();
                 finish();
             }
             else
@@ -138,6 +139,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 controller.getDto().getPost().setUser_image(youtubeLink);
                 controller.getDto().getPost().setType("VIDEO");
                 controller.addPost();
+                Toast.makeText(getApplicationContext(), "Post created",Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
@@ -167,6 +169,7 @@ public class CreatePostActivity extends AppCompatActivity {
                             controller.getDto().getPost().setUser_image(downloadUri.toString());
                             controller.getDto().getPost().setType("IMAGE");
                             controller.addPost();
+                            Toast.makeText(getApplicationContext(), "Post created",Toast.LENGTH_SHORT).show();
                             finish();
                         }
                         else
