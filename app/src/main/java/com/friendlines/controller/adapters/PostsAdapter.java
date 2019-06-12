@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.friendlines.CommentSection;
+import com.friendlines.ProfileActivity;
 import com.friendlines.R;
 import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
@@ -52,7 +54,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
             @Override
             public void onClick(View v) {
                 //TODO: crear activity de peril
-                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putString("fragment", "profile");
+                bundle.putInt("layout_id",R.layout.fragment_profile);
+                Intent intent = new Intent(context, ProfileActivity.class).putExtras(bundle);
                 context.startActivity(intent);
             }
         });
@@ -149,7 +154,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
             like = instance.findViewById(R.id.like);
             comments = instance.findViewById(R.id.comments);
             dislike = instance.findViewById(R.id.dislike);
-
         }
     }
 
