@@ -43,13 +43,6 @@ public class UserFeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_feed, container, false);
-        Button btnCreatePost = view.findViewById(R.id.btn_create_post);
-        btnCreatePost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), CreatePostActivity.class));
-            }
-        });
         controller = Controller.getInstance();
         adapter = new PostsAdapter(controller.getDto().getPosts(), getContext());
         recyclerView = view.findViewById(R.id.recyclerview);
