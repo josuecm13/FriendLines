@@ -2,44 +2,44 @@ package com.friendlines.view.homefragments;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.friendlines.R;
-import com.friendlines.controller.Controller;
-import com.friendlines.controller.adapters.PostsAdapter;
-import com.friendlines.controller.adapters.RequestsAdapter;
 import com.friendlines.controller.ControlException;
 import com.friendlines.controller.Controller;
 import com.friendlines.controller.adapters.PostsAdapter;
-import com.friendlines.controller.adapters.RequestsAdapter;
-import com.friendlines.controller.listeners.UserEventListener;
+import com.friendlines.controller.listeners.TaskListener;
 import com.friendlines.model.User;
 import com.friendlines.model.post.Post;
 import com.friendlines.view.SplashActivity;
 import com.friendlines.view.profile.EducationActivity;
-import com.google.firebase.Timestamp;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment{
+
+    private static final int GALLERY = 1;
 
     RecyclerView recyclerView;
     public PostsAdapter adapter;
@@ -63,11 +63,12 @@ public class ProfileFragment extends Fragment{
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showImageoptions("What do you want to do?",
+                showDialog("What do you want to do?",
         "Change Image", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                        startActivityForResult(intent, GALLERY);
                     }
                 },
         "View Image", new DialogInterface.OnClickListener() {
@@ -82,7 +83,7 @@ public class ProfileFragment extends Fragment{
         options.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                showImageoptions("Would you like to sign out?",
+                showDialog("Would you like to sign out?",
                         "Sign Out", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -113,6 +114,44 @@ public class ProfileFragment extends Fragment{
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == GALLERY && resultCode == RESULT_OK && data != null){
+            final Uri imageUri = data.getData();
+            Controller.getInstance().uploadImage(ProfileFragment.this.getActivity(), "images", imageUri, new TaskListener<String>() {
+                @Override
+                public void onSuccess(String imageURL) {
+                    try {
+                        Controller.getInstance().getDto().getUser().setImage(imageURL);
+                        Controller.getInstance().updateUser();
+                        Picasso.with(getContext()).load(imageUri).into(profileImage);
+                    } catch(ControlException ex){
+                        Toast.makeText(ProfileFragment.this.getContext(), ex.getMessage(), Toast.LENGTH_LONG);
+                    }
+                }
+
+                @Override
+                public void onFailure(ControlException exception) {
+                    Toast.makeText(ProfileFragment.this.getContext(), exception.getMessage(), Toast.LENGTH_LONG);
+                }
+            });
+        }
+    }
+
+    private void showDialog(String question,
+                            String positiveString, DialogInterface.OnClickListener positiveListener,
+                            String negativeString, DialogInterface.OnClickListener negativeListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(question)
+                .setCancelable(true)
+                .setPositiveButton(positiveString, positiveListener)
+                .setNegativeButton(negativeString, negativeListener);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     public void addFlilteredPost(Post post){
         if(post.getUser_id().equals(Controller.getInstance().getDto().getUser().getId()))
             adapter.addPost(post);
@@ -134,18 +173,6 @@ public class ProfileFragment extends Fragment{
             if(p.getUser_id() == Controller.getInstance().getDto().getUser().getAuth_id())
                 posts.add(p);
         }
-    }
-
-    private void showImageoptions(String question,
-                                  String positiveString, DialogInterface.OnClickListener positiveListener,
-                                  String negativeString, DialogInterface.OnClickListener negativeListener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage(question)
-                .setCancelable(true)
-                .setPositiveButton(positiveString, positiveListener)
-                .setNegativeButton(negativeString, negativeListener);
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     /*@Override
