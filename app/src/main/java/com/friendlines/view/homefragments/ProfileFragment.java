@@ -56,25 +56,24 @@ public class ProfileFragment extends Fragment{
         Post post = new Post();
         post.setCreated(Timestamp.now());
         post.setUser_name("Albert E.");
-        String test = getActivity().getString(R.string.sample_post_text);
-        post.setText(test);
-        List<Post> postList = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            postList.add(post);
-        }
-        adapter = new PostsAdapter(postList, getContext());
-        recyclerView = view.findViewById(R.id.timeline_container);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
-        */
-        /*nameTextView = getActivity().findViewById(R.id.profile_user_fullname);
-        profileImage = getActivity().findViewById(R.id.image);
+
+        nameTextView = view.findViewById(R.id.fullname);
+        profileImage = view.findViewById(R.id.image);
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showImageoptions();
             }
-        });*/
+        });
+
+        education = view.findViewById(R.id.education_btn);
+        education.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), EducationActivity.class));
+            }
+        });
+
         return view;
     }
 
@@ -127,11 +126,11 @@ public class ProfileFragment extends Fragment{
 
         return view;*//*
     }*/
-/*
+
     @Override
     public void onResume() {
         super.onResume();
         User user  = Controller.getInstance().getDto().getUser();
         nameTextView.setText(user.getFirstname() + " " + user.getLastname());
-    }*/
+    }
 }
