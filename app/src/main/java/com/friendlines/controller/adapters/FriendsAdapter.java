@@ -42,7 +42,8 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.Holder>{
     public void onBindViewHolder(@NonNull Holder holder, int i) {
         final Friendship f = friendshipList.get(i);
         holder.name.setText(f.getSender_name());
-        Picasso.with(context).load(f.getSender_image()).into(holder.image);
+        if(f.getSender_image() == null)
+            Picasso.with(context).load(f.getSender_image()).into(holder.image);
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +103,4 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.Holder>{
             remove = instance.findViewById(R.id.remove);
         }
     }
-
-
 }
