@@ -58,33 +58,55 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
         });
         //TODO: procesa
         postViewHolder.date.setText("5 minutes ago.");
-        postViewHolder.options.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you sure you want to delete it?")
-                        .setCancelable(true)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //delete in firebase
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
+        if(!post.getUser_id().equals(Controller.getInstance().getDto().getUser().getId()))
+        {
+            postViewHolder.options.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            postViewHolder.options.setVisibility(View.VISIBLE);
+            postViewHolder.options.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Are you sure you want to delete it?")
+                            .setCancelable(true)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    try
+                                    {
+                                        Controller.getInstance().deletePost(post.getId());
+                                    }
+                                    catch (ControlException e)
+                                    {
+                                        Log.e("Error", e.getMessage());
+                                    }
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            });
+        }
         postViewHolder.description.setText(post.getText());
         postViewHolder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //like post logic
+                try
+                {
+                    Controller.getInstance().addLike(post.getId());
+                }
+                catch (ControlException e)
+                {
+                    Log.e("Error", e.getMessage());
+                }
             }
         });
         postViewHolder.dislike.setOnClickListener(new View.OnClickListener() {
