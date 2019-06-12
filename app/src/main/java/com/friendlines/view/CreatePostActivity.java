@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import com.friendlines.R;
 import com.friendlines.controller.Controller;
+import com.friendlines.model.post.ImagePost;
+import com.friendlines.model.post.Post;
+import com.friendlines.model.post.VideoPost;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,10 +61,12 @@ public class CreatePostActivity extends AppCompatActivity {
     public void addImage(View view)
     {
         openGallery();
+        youtubeLink = null;
     }
 
     public void addVideo(View view)
     {
+        imageUri = null;
         //Extracted from https://stackoverflow.com/questions/10903754/input-text-dialog-android
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Insert your youtube link");
@@ -103,22 +108,39 @@ public class CreatePostActivity extends AppCompatActivity {
     {
         EditText postText = findViewById(R.id.post_text);
         //Creating the post
+        if(imageUri != null)
+        {
+            controller.getDto().setPost(new ImagePost());
+        }
+        else if(youtubeLink != null)
+        {
+            controller.getDto().setPost(new VideoPost());
+        }
+        else
+        {
+            controller.getDto().setPost(new Post());
+        }
         controller.getDto().getPost().setText(postText.getText().toString());
         controller.getDto().getPost().setCreated(new Timestamp(Calendar.getInstance().getTime()));
         controller.getDto().getPost().setUser_id(controller.getDto().getUser().getId());
         controller.getDto().getPost().setUser_name(controller.getDto().getUser().getFirstname() + " " + controller.getDto().getUser().getLastname());
+        controller.getDto().getPost().setUser_image(controller.getDto().getUser().getImage());
         if(imageUri == null)
         {
             if(youtubeLink == null)
             {
                 controller.getDto().getPost().setType("TEXT");
                 controller.addPost();
+                Toast.makeText(getApplicationContext(), "Post created",Toast.LENGTH_SHORT).show();
+                finish();
             }
             else
             {
                 controller.getDto().getPost().setUser_image(youtubeLink);
                 controller.getDto().getPost().setType("VIDEO");
                 controller.addPost();
+                Toast.makeText(getApplicationContext(), "Post created",Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
         else
@@ -147,6 +169,8 @@ public class CreatePostActivity extends AppCompatActivity {
                             controller.getDto().getPost().setUser_image(downloadUri.toString());
                             controller.getDto().getPost().setType("IMAGE");
                             controller.addPost();
+                            Toast.makeText(getApplicationContext(), "Post created",Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                         else
                         {

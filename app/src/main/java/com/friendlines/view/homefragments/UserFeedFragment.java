@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class UserFeedFragment extends Fragment {
 
-    PostsAdapter adapter;
+    public PostsAdapter adapter;
     RecyclerView recyclerView;
     Controller controller;
 
@@ -43,6 +43,7 @@ public class UserFeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_feed, container, false);
+        controller = Controller.getInstance();
         Button btnCreatePost = view.findViewById(R.id.btn_create_post);
         btnCreatePost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,51 +51,10 @@ public class UserFeedFragment extends Fragment {
                 startActivity(new Intent(getContext(), CreatePostActivity.class));
             }
         });
-        controller = Controller.getInstance();
         adapter = new PostsAdapter(controller.getDto().getPosts(), getContext());
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        loadPosts();
         return view;
-    }
-
-    private void loadPosts()
-    {
-        try
-        {
-            for(Friendship friendship : controller.getDto().getFriendships())
-            {
-                if(friendship.getStatus().equals(Friendship.ACCEPTED_STATUS))
-                {
-                    controller.listenPost(getActivity(), friendship.getId(), new PostEventListener() {
-                        @Override
-                        public void onPostAdded(Post post)
-                        {
-                            controller.getDto().getPosts().add(post);
-                            adapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onPostChanged(Post post)
-                        {
-                            controller.getDto().getPosts().set(controller.getDto().getPosts().indexOf(post), post);
-                            adapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onPostDeleted(Post post)
-                        {
-                            controller.getDto().getPosts().remove(post);
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
-                }
-            }
-        }
-        catch (ControlException e)
-        {
-            Log.e("Error", e.getMessage());
-        }
     }
 }

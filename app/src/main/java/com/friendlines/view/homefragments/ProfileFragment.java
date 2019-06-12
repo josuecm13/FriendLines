@@ -1,6 +1,6 @@
 package com.friendlines.view.homefragments;
-
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -52,7 +52,7 @@ public class ProfileFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
+        /*
         Post post = new Post();
         post.setCreated(Timestamp.now());
         post.setUser_name("Albert E.");
@@ -66,9 +66,48 @@ public class ProfileFragment extends Fragment{
         recyclerView = view.findViewById(R.id.timeline_container);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+        */
+        /*nameTextView = getActivity().findViewById(R.id.profile_user_fullname);
+        profileImage = getActivity().findViewById(R.id.image);
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImageoptions();
+            }
+        });*/
+        return view;
+    }
+
+    private void showImageoptions() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("What do you want to do")
+                .setCancelable(true)
+                .setPositiveButton("Change image", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //delete in firebase
+                    }
+                })
+                .setNegativeButton("view Image", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /*@Override
+    public void onUserChanged(User user) {
+        Log.d(Controller.TAG, user.getAuth_id());
+        Log.d(Controller.TAG, user.getFirstname());
+        Log.d(Controller.TAG, user.getLastname());
+        //nameTextView.setText(user.getFirstname()+ " " + user.getLastname());
+        //Picasso.with(getContext()).load(user.getImage()).into(profileImage);
         
 
-        nameTextView = view.findViewById(R.id.fullname);
+        *//*nameTextView = view.findViewById(R.id.fullname);
         profileImage = view.findViewById(R.id.image);
 
 
@@ -86,13 +125,13 @@ public class ProfileFragment extends Fragment{
             }
         });
 
-        return view;
-    }
-
+        return view;*//*
+    }*/
+/*
     @Override
     public void onResume() {
         super.onResume();
         User user  = Controller.getInstance().getDto().getUser();
         nameTextView.setText(user.getFirstname() + " " + user.getLastname());
-    }
+    }*/
 }
