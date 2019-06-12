@@ -52,7 +52,7 @@ public class ProfileFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
+        /*
         Post post = new Post();
         post.setCreated(Timestamp.now());
         post.setUser_name("Albert E.");
@@ -67,14 +67,14 @@ public class ProfileFragment extends Fragment{
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         */
-        nameTextView = getActivity().findViewById(R.id.profile_user_fullname);
+        /*nameTextView = getActivity().findViewById(R.id.profile_user_fullname);
         profileImage = getActivity().findViewById(R.id.image);
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showImageoptions();
             }
-        });
+        });*/
         return view;
     }
 
@@ -98,7 +98,7 @@ public class ProfileFragment extends Fragment{
         dialog.show();
     }
 
-    @Override
+    /*@Override
     public void onUserChanged(User user) {
         Log.d(Controller.TAG, user.getAuth_id());
         Log.d(Controller.TAG, user.getFirstname());
@@ -107,7 +107,7 @@ public class ProfileFragment extends Fragment{
         //Picasso.with(getContext()).load(user.getImage()).into(profileImage);
         
 
-        nameTextView = view.findViewById(R.id.fullname);
+        *//*nameTextView = view.findViewById(R.id.fullname);
         profileImage = view.findViewById(R.id.image);
 
 
@@ -125,8 +125,8 @@ public class ProfileFragment extends Fragment{
             }
         });
 
-        return view;
-    }
+        return view;*//*
+    }*/
 
     @Override
     public void onResume() {
