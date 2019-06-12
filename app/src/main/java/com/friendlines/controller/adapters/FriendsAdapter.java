@@ -41,8 +41,16 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.Holder>{
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int i) {
         final Friendship f = friendshipList.get(i);
-        holder.name.setText(f.getSender_name());
-        Picasso.with(context).load(f.getSender_image()).into(holder.image);
+        if(!f.getSender_id().equals(Controller.getInstance().getDto().getUser().getId()))
+        {
+            holder.name.setText(f.getSender_name());
+            Picasso.with(context).load(f.getSender_image()).into(holder.image);
+        }
+        else
+        {
+            holder.name.setText(f.getReceiver_name());
+            Picasso.with(context).load(f.getReceiver_image()).into(holder.image);
+        }
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
