@@ -107,7 +107,7 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.Hold
         int i = list.indexOf(education);
         list.remove(i);
         list.add(i, education);
-        notifyDataSetChanged();
+        notifyItemChanged(i);
     }
 
     public void deleteEducation(Education education){

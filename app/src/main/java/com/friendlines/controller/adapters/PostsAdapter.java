@@ -153,6 +153,27 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
         }
     }
 
+    public void setContext(Context c){
+        this.context = c;
+    }
+
+    public void addPost(Post post){
+        postList.add(post);
+        notifyDataSetChanged();
+    }
+
+    public void changePost(Post post){
+        int i = postList.indexOf(post);
+        postList.remove(i);
+        postList.add(i, post);
+        notifyItemChanged(i);
+    }
+
+    public void deletePost(Post post){
+
+    }
+
+
     private void deletePost(int i)
     {
         try

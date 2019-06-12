@@ -6,11 +6,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +22,14 @@ import com.friendlines.controller.Controller;
 import com.friendlines.controller.adapters.PostsAdapter;
 import com.friendlines.controller.listeners.TaskListener;
 import com.friendlines.model.User;
+import com.friendlines.model.post.Post;
 import com.friendlines.view.SplashActivity;
 import com.friendlines.view.profile.EducationActivity;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -36,14 +42,14 @@ public class ProfileFragment extends Fragment{
     private static final int GALLERY = 1;
 
     RecyclerView recyclerView;
-    PostsAdapter adapter;
+    public PostsAdapter adapter;
     TextView nameTextView;
     CircularImageView profileImage;
     View options;
     Button education;
 
     public ProfileFragment() {
-
+        adapter = new PostsAdapter(new ArrayList<Post>(),getContext());
     }
 
     @Override
@@ -101,6 +107,9 @@ public class ProfileFragment extends Fragment{
                 startActivity(new Intent(getContext(), EducationActivity.class));
             }
         });
+        recyclerView = view.findViewById(R.id.timeline_container);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
 
         return view;
     }
@@ -141,6 +150,29 @@ public class ProfileFragment extends Fragment{
                 .setNegativeButton(negativeString, negativeListener);
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void addFlilteredPost(Post post){
+        if(post.getUser_id().equals(Controller.getInstance().getDto().getUser().getId()))
+            adapter.addPost(post);
+    }
+
+    public void changeFilteredPost(Post post){
+        if(post.getUser_id().equals(Controller.getInstance().getDto().getUser().getId()))
+            adapter.changePost(post);
+    }
+
+    public void deleteFilteredPost(Post post){
+        if(post.getUser_id().equals(Controller.getInstance().getDto().getUser().getId()))
+            adapter.deletePost(post);
+    }
+
+    public void filterUserPosts(List<Post> allposts){
+        List<Post> posts = new ArrayList<>();
+        for (Post p: allposts){
+            if(p.getUser_id() == Controller.getInstance().getDto().getUser().getAuth_id())
+                posts.add(p);
+        }
     }
 
     /*@Override

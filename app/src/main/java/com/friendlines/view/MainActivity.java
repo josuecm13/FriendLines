@@ -121,6 +121,8 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onFriendshipRejected(Friendship friendship) {
                     controller.getDto().getFriendships().remove(friendship);
+                    controller.getDto().getPosts().clear();
+                    loadPosts();
                     Log.e("Friend", "Rejected friend: " + friendship.getReceiver_name());
                 }
             });
@@ -139,6 +141,7 @@ public class MainActivity extends AppCompatActivity
             {
                 filtratePost(post);
                 userFeedFragment.adapter.notifyDataSetChanged();
+                profileFragment.addFlilteredPost(post);
                 Log.e("Post", "New post");
             }
 
@@ -147,6 +150,7 @@ public class MainActivity extends AppCompatActivity
             {
                 controller.getDto().getPosts().set(controller.getDto().getPosts().indexOf(post), post);
                 userFeedFragment.adapter.notifyDataSetChanged();
+                profileFragment.changeFilteredPost(post);
                 Log.e("Post", "Changed post");
             }
 
@@ -155,6 +159,7 @@ public class MainActivity extends AppCompatActivity
             {
                 controller.getDto().getPosts().remove(post);
                 userFeedFragment.adapter.notifyDataSetChanged();
+                profileFragment.deleteFilteredPost(post);
                 Log.e("Post", "Deleted post");
             }
         });

@@ -32,17 +32,26 @@
 
                 <TextView
                     android:id="@+id/name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginBottom="40dp"
-                    android:maxWidth="281dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="0dp"
                     android:text="Pepito Pérez Rodriguez"
                     android:textColor="@android:color/background_dark" />
 
-
+                <Button
+                    android:id="@+id/send_request"
+                    android:layout_width="150dp"
+                    android:layout_height="35dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:textSize="10sp"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="10dp"
+                    android:text="Send Request"
+                    android:layout_below="@+id/name"
+                    android:textColor="@android:color/background_light"
+                    />
             </RelativeLayout>
 
         </LinearLayout>
