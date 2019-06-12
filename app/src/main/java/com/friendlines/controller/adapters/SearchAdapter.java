@@ -64,7 +64,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder>{
                     friendship.setReceiver_image(user.getImage());
                     friendship.setReceiver_name(user.getFirstname() + " " + user.getLastname());
                     friendship.setSender_id(Controller.getInstance().getDto().getUser().getId());
-                    friendship.setReceiver_name(Controller.getInstance().getDto().getUser().getFirstname() + " " + Controller.getInstance().getDto().getUser().getLastname());
+                    friendship.setSender_name(Controller.getInstance().getDto().getUser().getFirstname() + " " + Controller.getInstance().getDto().getUser().getLastname());
                     friendship.setSender_image(Controller.getInstance().getDto().getUser().getImage());
                     friendship.setStatus(Friendship.PENDING_STATUS);
                     Controller.getInstance().getDto().setFriendship(friendship);
