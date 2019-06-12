@@ -167,6 +167,7 @@ public class MainActivity extends AppCompatActivity
             if((post.getUser_id().equals(controller.getDto().getUser().getId())) || friendship.getStatus().equals(Friendship.ACCEPTED_STATUS) && (friendship.getReceiver_id().equals(post.getUser_id()) || friendship.getSender_id().equals(post.getUser_id())))
             {
                 controller.getDto().getPosts().add(post);
+                return;
             }
         }
     }
