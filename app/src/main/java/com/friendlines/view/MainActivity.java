@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        controller = Controller.getInstance();
         userFeedFragment = new UserFeedFragment();
         friendsFragment = new FriendsFragment();
         profileFragment = new ProfileFragment();
