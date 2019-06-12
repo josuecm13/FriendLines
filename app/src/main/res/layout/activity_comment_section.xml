@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".CommentSection">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/comment_edit_text"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@drawable/round_corner"
+            android:textAllCaps="false"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:textAlignment="viewStart"
+            android:hint="Write a comment..."/>
+
+
+        <ImageButton
+            android:id="@+id/submit_comment"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/round_corner"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:backgroundTint="@color/colorPrimary"
+            android:src="@drawable/plus"
+            android:onClick="addComment"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            />
+
+
+    </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/comments_listview"
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
