@@ -123,7 +123,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
         postViewHolder.comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, CommentSection.class));
+                Intent intent = new Intent(context, CommentSection.class);
+                intent.putExtra("POST_ID", post.getId());
+                context.startActivity(intent);
             }
         });
         //TODO: set media content
