@@ -144,7 +144,6 @@ public class ProfileFragment extends Fragment{
         }
     }
 
-    private void showImageoptions() {
     private void showImageoptions(String question,
                                   String positiveString, DialogInterface.OnClickListener positiveListener,
                                   String negativeString, DialogInterface.OnClickListener negativeListener) {
