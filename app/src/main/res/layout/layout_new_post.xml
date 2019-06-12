@@ -26,7 +26,7 @@
                 android:src="@raw/person_placeholder"/>
 
             <Button
-                android:id="@+id/create_post"
+                android:id="@+id/btn_create_post"
                 android:layout_width="230dp"
                 android:layout_height="50dp"
                 android:background="@drawable/round_corner"
